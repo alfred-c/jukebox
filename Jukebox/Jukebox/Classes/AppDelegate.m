@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  Jukebox
 //
-//  Created by Katie Zhu on 10/29/11.
+//  Created by Thanapon Noraset on 10/30/11.
 //  Copyright __MyCompanyName__ 2011. All rights reserved.
 //
 

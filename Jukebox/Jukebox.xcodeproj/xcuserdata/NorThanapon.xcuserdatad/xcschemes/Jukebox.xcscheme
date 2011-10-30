@@ -13,7 +13,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "02449D14145CCF8B001EE287"
+               BlueprintIdentifier = "C8DE8144145DD49D00FAF30F"
                BuildableName = "Jukebox.app"
                BlueprintName = "Jukebox"
                ReferencedContainer = "container:Jukebox.xcodeproj">
@@ -28,17 +28,28 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C8DE8144145DD49D00FAF30F"
+            BuildableName = "Jukebox.app"
+            BlueprintName = "Jukebox"
+            ReferencedContainer = "container:Jukebox.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.GDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug">
+      buildConfiguration = "Debug"
+      debugDocumentVersioning = "YES"
+      allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "02449D14145CCF8B001EE287"
+            BlueprintIdentifier = "C8DE8144145DD49D00FAF30F"
             BuildableName = "Jukebox.app"
             BlueprintName = "Jukebox"
             ReferencedContainer = "container:Jukebox.xcodeproj">
@@ -51,11 +62,12 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release">
+      buildConfiguration = "Release"
+      debugDocumentVersioning = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "02449D14145CCF8B001EE287"
+            BlueprintIdentifier = "C8DE8144145DD49D00FAF30F"
             BuildableName = "Jukebox.app"
             BlueprintName = "Jukebox"
             ReferencedContainer = "container:Jukebox.xcodeproj">
