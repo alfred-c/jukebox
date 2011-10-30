@@ -12,7 +12,15 @@
 	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
 	-->
 	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
-	<script type="text/javascript" charset="utf-8" src="phonegap-1.1.0.js"></script>
+	<!-- Javascript Framework Files -->
+    <script type="text/javascript" charset="utf-8" src="javascript/phonegap-1.1.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascript/jquery/jquery-1.6.4.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascript/jquery/jquery.mobile-1.0rc1.js"></script>
+
+    <!-- Javascript Source Files -->
+    <script type="text/javascript" charset="utf-8" src="javascript/logics/pgapi.js"></script>
+		
+    
     <script type="text/javascript">
 
 
@@ -46,8 +54,7 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
-		// do your thing!
-		navigator.notification.alert("PhoneGap is working")
+		window.location = "jasmine/SpecRunner.html";		
 	}
     
     </script>
