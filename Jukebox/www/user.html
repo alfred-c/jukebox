@@ -73,62 +73,93 @@
 		<li>Add your allowed hosts in PhoneGap.plist/ExternalHosts (wildcards OK)</li>
 	</ol>
        !-->
-	   <div data-role="content">
-			<div class="content-primary">	
-				<ul data-role="listview">
-					<li>
-						<a href="#">
-							<img src="css/jquery/images/album-bb.jpg" />
-							<h3>Broken Bells</h3>
-							<p>Broken Bells</p>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<img src="css/jquery/images/album-hc.jpg" />
-							<h3>Warning</h3>
-							<p>Hot Chip</p>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<img src="css/jquery/images/album-p.jpg" />
-							<h3>Wolfgang Amadeus Phoenix</h3>
-							<p>Phoenix</p>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<img src="css/jquery/images/album-ok.jpg" />
-							<h3>Of The Blue Colour Of The Sky</h3>
-							<p>Ok Go</p>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<img src="css/jquery/images/album-ws.jpg" />
-							<h3>Elephant</h3>
-							<p>The White Stripes</p>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<img src="css/jquery/images/album-rh.jpg" />
-							<h3>Kid A</h3>
-							<p>Radiohead</p>
-						</a>
-					</li>
-				</ul>
+	   
+	   <div data-role="page" id="events">
+			<div data-role="header" data-position="inline" data-theme="b">
+				<a data-rel="back" data-icon="arrow-l" data-theme="b">Home</a>
+				<h1>Jukebox</h1>
+			</div>
+		   <div data-role="content">
+				<div class="content-primary">	
+					<ul data-role="listview">
+						<li>
+							<a href="#controls">
+								<h3>Stephen Weber</h3>
+								<p>
+									<strong>You've been invited to a meeting at Filament Group in Boston, MA</strong>
+								</p>
+								<p>Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
+								<p class="ui-li-aside"><strong>6:24</strong>PM</p>
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-		<div data-role="footer" data-id="foo1" data-position="fixed">
-		<div data-role="navbar">
-			<ul>
-				<li><a href="footer-persist-a.html" class="ui-btn-active ui-state-persist">Songs</a></li>
-				<li><a href="footer-persist-b.html">Queue</a></li>
-				<li><a href="footer-persist-c.html">Now Playing</a></li>
-			</ul>
-		</div><!-- /navbar -->
+
+	   
+	   <div data-role="page" id="controls">
+		   <div data-role="header" data-position="inline" data-theme="b">
+				<a data-rel="back" data-icon="arrow-l" data-theme="b">Events</a>
+				<h1>Jukebox</h1>
+			</div>
+		   <div data-role="content">
+				<div class="content-primary">	
+					<ul data-role="listview">
+						<li>
+							<a href="#">
+								<img src="css/jquery/images/album-bb.jpg" />
+								<h3>Broken Bells</h3>
+								<p>Broken Bells</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="css/jquery/images/album-hc.jpg" />
+								<h3>Warning</h3>
+								<p>Hot Chip</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="css/jquery/images/album-p.jpg" />
+								<h3>Wolfgang Amadeus Phoenix</h3>
+								<p>Phoenix</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="css/jquery/images/album-ok.jpg" />
+								<h3>Of The Blue Colour Of The Sky</h3>
+								<p>Ok Go</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="css/jquery/images/album-ws.jpg" />
+								<h3>Elephant</h3>
+								<p>The White Stripes</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="css/jquery/images/album-rh.jpg" />
+								<h3>Kid A</h3>
+								<p>Radiohead</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="footer-persist-a.html" class="ui-btn-active ui-state-persist">Songs</a></li>
+					<li><a href="footer-persist-b.html">Queue</a></li>
+					<li><a href="footer-persist-c.html">Now Playing</a></li>
+				</ul>
+			</div><!-- /navbar -->
+		</div>
 	</div>
   </body>
 </html>

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
 	<meta charset="utf-8">
 
+	<link rel="stylesheet" href="css/jquery/jquery.mobile-1.0rc1.css" />
 
 	<!-- iPad/iPhone specific css below, add after your main css >
 	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
@@ -76,7 +77,6 @@
                                 );
          */
         window.location = "jasmine/SpecRunner.html";		
-		//window.location = 'user.html';
 	}
     
     </script>
@@ -91,5 +91,22 @@
 		<li>Add your allowed hosts in PhoneGap.plist/ExternalHosts (wildcards OK)</li>
 	</ol>
        !-->
+	   
+	   <div data-role="page">
+
+			<div data-role="header" data-theme="b">
+				<h1>Jukebox</h1>
+			</div>
+				   
+			<div data-role="content">
+				<div class="content-primary">	
+					<fieldset class="ui-grid-a">
+						<div class="ui-block-a"><button type="submit" data-theme="d">Host</button></div>
+						<div class="ui-block-b"><button type="submit" data-theme="b" onclick="window.location='user.html';">User</button></div>
+					</fieldset>
+				</div>
+			</div>
+			
+		</div>
   </body>
 </html>
