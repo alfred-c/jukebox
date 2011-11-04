@@ -25,6 +25,21 @@
     return [super init];
 }
 
+- (void) presentMediaPickerFor:(id) inDelegate{
+    MPMediaPickerController *picker =
+    [[MPMediaPickerController alloc]
+     initWithMediaTypes: MPMediaTypeAnyAudio];                   
+    
+    [picker setDelegate: inDelegate];                                         
+    [picker setAllowsPickingMultipleItems: YES];                        
+    picker.prompt =
+    NSLocalizedString (@"Add songs to play",
+                       "Prompt in media item picker");
+    
+    [self.viewController presentModalViewController: picker animated: YES];    
+    [picker release];
+}
+
 /**
  * This is main kick off after the app inits, the views and Settings are setup here. (preferred - iOS4 and up)
  */

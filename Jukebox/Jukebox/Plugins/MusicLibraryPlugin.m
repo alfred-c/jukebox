@@ -12,7 +12,8 @@
 
 @synthesize callbackID;
 
--(void)print:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+-(void)print:(NSMutableArray*)arguments 
+    withDict:(NSMutableDictionary*)options {
     
     //The first argument in the arguments parameter is the callbackID.
     //We use this to send data back to the successCallback or failureCallback
@@ -39,5 +40,15 @@
     }
     
 }
+
+- (void) selectSongs:(NSMutableArray*)arguments 
+            withDict:(NSMutableDictionary*)option{
+    self.callbackID = [arguments pop];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate presentMediaPickerFor:self];
+}
+
+
+
 
 @end

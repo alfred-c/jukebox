@@ -7,14 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <MediaPlayer/MPMediaPickerController.h>
 #import <PhoneGap/PGPlugin.h>
+#import "AppDelegate.h"
 
-@interface MusicLibraryPlugin : PGPlugin {
+@interface MusicLibraryPlugin : PGPlugin <MPMediaPickerControllerDelegate>{
     NSString* callbackID;  
 }
 
 @property (nonatomic, copy) NSString* callbackID;
 
 - (void) print:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) selectSongs:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 @end
