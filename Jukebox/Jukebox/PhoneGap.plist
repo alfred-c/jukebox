@@ -22,7 +22,7 @@
 	<false/>
 	<key>ExternalHosts</key>
 	<array>
-		<string>http://localhost:9988</string>
+		<string>*</string>
 	</array>
 	<key>Plugins</key>
 	<dict>
