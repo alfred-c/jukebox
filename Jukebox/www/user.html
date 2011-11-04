@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
 	<meta charset="utf-8">
 
-
+	<link rel="stylesheet" href="css/jquery/jquery.mobile-1.0rc1.css" />
+	
 	<!-- iPad/iPhone specific css below, add after your main css >
 	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
 	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
@@ -57,26 +58,7 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
-        /*
-        var mLib = new MusicLibrary();
-        mLib.selectSongs(
-                                
-                                ["HelloWorld"] ,
-                                
-                                function(result) {
-                                
-                                alert("Success : \r\n"+result);      
-                                
-                                },
-                                
-                                function(error) {
-                                
-                                alert("Error : \r\n"+error);      
-                                }
-                                );
-         */
-        window.location = "jasmine/SpecRunner.html";		
-		//window.location = 'user.html';
+        //window.location = "jasmine/SpecRunner.html";	
 	}
     
     </script>
@@ -91,5 +73,62 @@
 		<li>Add your allowed hosts in PhoneGap.plist/ExternalHosts (wildcards OK)</li>
 	</ol>
        !-->
+	   <div data-role="content">
+			<div class="content-primary">	
+				<ul data-role="listview">
+					<li>
+						<a href="#">
+							<img src="css/jquery/images/album-bb.jpg" />
+							<h3>Broken Bells</h3>
+							<p>Broken Bells</p>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="css/jquery/images/album-hc.jpg" />
+							<h3>Warning</h3>
+							<p>Hot Chip</p>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="css/jquery/images/album-p.jpg" />
+							<h3>Wolfgang Amadeus Phoenix</h3>
+							<p>Phoenix</p>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="css/jquery/images/album-ok.jpg" />
+							<h3>Of The Blue Colour Of The Sky</h3>
+							<p>Ok Go</p>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="css/jquery/images/album-ws.jpg" />
+							<h3>Elephant</h3>
+							<p>The White Stripes</p>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="css/jquery/images/album-rh.jpg" />
+							<h3>Kid A</h3>
+							<p>Radiohead</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div data-role="footer" data-id="foo1" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="footer-persist-a.html" class="ui-btn-active ui-state-persist">Songs</a></li>
+				<li><a href="footer-persist-b.html">Queue</a></li>
+				<li><a href="footer-persist-c.html">Now Playing</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div>
   </body>
 </html>
