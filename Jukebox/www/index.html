@@ -17,6 +17,9 @@
     <script type="text/javascript" charset="utf-8" src="javascript/jquery/jquery-1.6.4.js"></script>
     <script type="text/javascript" charset="utf-8" src="javascript/jquery/jquery.mobile-1.0rc1.js"></script>
 
+    <!-- Plugins -->
+    <script type="text/javascript" charset="utf-8" src="javascript/plugins/musicplugin.js"></script>
+        
     <!-- Javascript Source Files -->
     <script type="text/javascript" charset="utf-8" src="javascript/logics/pgapi.js"></script>
 		
@@ -54,7 +57,23 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
-		window.location = "jasmine/SpecRunner.html";		
+        var musicLib = new MusicLibrary();
+        musicLib.print(
+                                
+                                ["HelloWorld"] ,
+                                
+                                function(result) {
+                                
+                                alert("Success : \r\n"+result);      
+                                
+                                },
+                                
+                                function(error) {
+                                
+                                alert("Error : \r\n"+error);      
+                                }
+                                );
+		//window.location = "jasmine/SpecRunner.html";		
 	}
     
     </script>

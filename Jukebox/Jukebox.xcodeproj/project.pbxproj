@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C88578E11463C5B100682817 /* MusicLibraryPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C88578E01463C5B100682817 /* MusicLibraryPlugin.m */; };
 		C8DE814A145DD49D00FAF30F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8DE8149145DD49D00FAF30F /* Foundation.framework */; };
 		C8DE814C145DD49D00FAF30F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8DE814B145DD49D00FAF30F /* UIKit.framework */; };
 		C8DE814E145DD49D00FAF30F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8DE814D145DD49D00FAF30F /* CoreGraphics.framework */; };
@@ -37,6 +38,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C88578DF1463C5B100682817 /* MusicLibraryPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicLibraryPlugin.h; path = Plugins/MusicLibraryPlugin.h; sourceTree = "<group>"; };
+		C88578E01463C5B100682817 /* MusicLibraryPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicLibraryPlugin.m; path = Plugins/MusicLibraryPlugin.m; sourceTree = "<group>"; };
 		C8DE8145145DD49D00FAF30F /* Jukebox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jukebox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8DE8149145DD49D00FAF30F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C8DE814B145DD49D00FAF30F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -225,6 +228,8 @@
 			isa = PBXGroup;
 			children = (
 				C8DE818C145DD49D00FAF30F /* README */,
+				C88578DF1463C5B100682817 /* MusicLibraryPlugin.h */,
+				C88578E01463C5B100682817 /* MusicLibraryPlugin.m */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -322,6 +327,7 @@
 			files = (
 				C8DE816A145DD49D00FAF30F /* main.m in Sources */,
 				C8DE818A145DD49D00FAF30F /* AppDelegate.m in Sources */,
+				C88578E11463C5B100682817 /* MusicLibraryPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
