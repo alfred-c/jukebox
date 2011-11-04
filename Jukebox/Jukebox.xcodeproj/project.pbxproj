@@ -124,6 +124,7 @@
 		C8DE8148145DD49D00FAF30F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C8DE816C145DD49D00FAF30F /* PhoneGap.framework */,
 				C8DE8149145DD49D00FAF30F /* Foundation.framework */,
 				C8DE814B145DD49D00FAF30F /* UIKit.framework */,
 				C8DE814D145DD49D00FAF30F /* CoreGraphics.framework */,
@@ -144,7 +145,6 @@
 		C8DE8163145DD49D00FAF30F /* Jukebox */ = {
 			isa = PBXGroup;
 			children = (
-				C8DE816C145DD49D00FAF30F /* PhoneGap.framework */,
 				C8DE816E145DD49D00FAF30F /* Resources */,
 				C8DE8187145DD49D00FAF30F /* Classes */,
 				C8DE818B145DD49D00FAF30F /* Plugins */,
@@ -480,6 +480,7 @@
 				C8DE8191145DD49D00FAF30F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
