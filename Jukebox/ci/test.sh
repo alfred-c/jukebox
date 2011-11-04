@@ -1,1 +1,1 @@
-java -cp .Jukebox/TBJasmineServer/bin/ BlueTestListener 9988
+java -cp ./Jukebox/TBJasmineServer/bin/ BlueTestListener 9988
