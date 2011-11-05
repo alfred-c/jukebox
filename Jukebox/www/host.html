@@ -64,12 +64,12 @@
                     var jukeboxDOM = new Jukebox.DOM();
                     if(songList.length <= 0) {
                         $('#btnPublishEvent').addClass('ui-disabled');
-                        //$('#song-list').hide();
+                        $('#btnClearSong').addClass('ui-disabled');
                         $('#empty-song-list').show();
                     }
                     else {
                         $('#btnPublishEvent').removeClass('ui-disabled');  
-                        //$('#song-list').show();
+                        $('#btnClearSong').removeClass('ui-disabled');  
                         $('#empty-song-list').hide();
                     }
                     $('#song-list').html(jukeboxDOM.renderListMediaItems(songList));
@@ -111,6 +111,7 @@
                     <ul data-role="listview" id="song-list" data-filter="true"></ul>
                 </div>
                 <div id="empty-song-list">
+                    <br />
                     The song list is empty.
                     <br />
                      Tab 
@@ -119,7 +120,15 @@
                 </div>
                 <br />
                 <div>
-                    <a href="#" data-role="button" data-theme="b" id="btnPublishEvent">Publish</a>
+                    <fieldset class="ui-grid-a">
+						<div class="ui-block-a">                    
+                            <a href="#" data-role="button" data-theme="c" id="btnClearSong" onClick="songList=[];updateSongList();">Clear</a>
+                        </div>
+						<div class="ui-block-b">
+                            <a href="#" data-role="button" data-theme="b" id="btnPublishEvent">Publish</a>
+
+                        </div>
+					</fieldset>
                 </div>
             </div>
 		</div>
