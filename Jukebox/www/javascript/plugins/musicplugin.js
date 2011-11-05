@@ -4,8 +4,8 @@ MusicLibrary.prototype.print = function (types, success, fail) {
     return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "print", types);
 };
 
-MusicLibrary.prototype.selectSongs = function (success, fail) {
-    return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "selectSongs", []);
+MusicLibrary.prototype.selectSongs = function (types, success, fail) {
+    return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "selectSongs", types);
 };
 
 MusicLibrary.prototype._castMediaItems = function(pluginResult) {

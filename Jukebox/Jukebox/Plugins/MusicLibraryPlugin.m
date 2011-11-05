@@ -11,6 +11,7 @@
 @implementation MusicLibraryPlugin
 
 @synthesize callbackID;
+@synthesize returnType;
 #pragma Utility Methods
 
 -(NSString *) jsonStringFromPropertyValue:(NSObject *) object{
@@ -94,8 +95,19 @@
 - (void) selectSongs:(NSMutableArray*)arguments 
             withDict:(NSMutableDictionary*)option{
     self.callbackID = [arguments pop];
+    self.returnType = [arguments objectAtIndex:0];
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate presentMediaPickerFor:self];
+    @try {
+        [appDelegate presentMediaPickerFor:self];
+    }
+    @catch (NSException *exception) {
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:                        [exception.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
+    }
+    @finally {
+        self.returnType = nil;
+    }
+    
 }
 
 #pragma MediaPickerController Deletage Methods
@@ -107,10 +119,17 @@
     [appDelegate dismissMediaPicker];
     @try{
         //return
-        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK 
-                                                     messageAsArray:[self jsonArrayFromMediaCollection:collection]
-                                                               cast:@"window.plugins.musicLibrary._castMediaItems"];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+        if ([self.returnType isEqualToString:@"String"]) {
+            PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK 
+                                                         messageAsArray:[self jsonArrayFromMediaCollection:collection]];
+            [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+        }
+        else{
+            PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK 
+                                                         messageAsArray:[self jsonArrayFromMediaCollection:collection]
+                                                                   cast:@"window.plugins.musicLibrary._castMediaItems"];
+            [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+        }
         //[self updatePlayerQueueWithMediaCollection: collection];
         //NSLog(@"What");
     }
@@ -118,12 +137,20 @@
         PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:                        [ex.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
     }
+    @finally {
+        self.returnType = nil;
+    }
 }
 
 - (void) mediaPickerDidCancel: (MPMediaPickerController *) mediaPicker {
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate dismissMediaPicker];
+    
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK 
+                                                 messageAsArray:[NSArray array]];
+    [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+    self.returnType = nil;
 }
 
 

@@ -13,10 +13,12 @@
 #import "AppDelegate.h"
 
 @interface MusicLibraryPlugin : PGPlugin <MPMediaPickerControllerDelegate>{
-    NSString* callbackID;  
+    NSString* callbackID; 
+    NSString* returnType;
 }
 
 @property (nonatomic, copy) NSString* callbackID;
+@property (nonatomic, copy) NSString* returnType;
 
 - (void) print:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) selectSongs:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;

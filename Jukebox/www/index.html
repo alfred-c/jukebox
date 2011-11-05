@@ -58,15 +58,16 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
-        /*
-        window.plugins.musicLibrary.selectSongs(function(result) {
+        
+        window.plugins.musicLibrary.selectSongs(["Object"],
+                                                function(result) {
                                                     console.log(result);
                                                 },
                                                 function() {
                                                     console.log('error');
                                                 });
-        */
-        window.location = "jasmine/SpecRunner.html";		
+        
+        //window.location = "jasmine/SpecRunner.html";		
 	}
     
     </script>
