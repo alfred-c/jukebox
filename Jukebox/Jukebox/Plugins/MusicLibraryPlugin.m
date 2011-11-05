@@ -96,9 +96,15 @@
             withDict:(NSMutableDictionary*)option{
     self.callbackID = [arguments pop];
     self.returnType = [arguments objectAtIndex:0];
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     @try {
+#if TARGET_IPHONE_SIMULATOR
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK 
+                                                     messageAsArray:[NSArray array]];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+#else
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate presentMediaPickerFor:self];
+#endif
     }
     @catch (NSException *exception) {
         PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:                        [exception.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
