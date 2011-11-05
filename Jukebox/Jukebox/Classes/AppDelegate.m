@@ -25,6 +25,7 @@
     return [super init];
 }
 
+
 - (void) presentMediaPickerFor:(id) inDelegate{
     MPMediaPickerController *picker =
     [[MPMediaPickerController alloc]
@@ -38,6 +39,10 @@
     
     [self.viewController presentModalViewController: picker animated: YES];    
     [picker release];
+}
+
+- (void) dismissMediaPicker{
+    [self.viewController dismissModalViewControllerAnimated: YES];
 }
 
 /**

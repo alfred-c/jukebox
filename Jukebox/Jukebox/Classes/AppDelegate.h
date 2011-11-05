@@ -27,6 +27,6 @@
 @property (copy)  NSString* invokeString;
 
 - (void) presentMediaPickerFor:(id<MPMediaPickerControllerDelegate>) inDelegate;
-
+- (void) dismissMediaPicker;
 @end
 

@@ -59,23 +59,13 @@
 	function onDeviceReady()
 	{
         /*
-        var mLib = new MusicLibrary();
-        mLib.selectSongs(
-                                
-                                ["HelloWorld"] ,
-                                
-                                function(result) {
-                                
-                                alert("Success : \r\n"+result);      
-                                
-                                },
-                                
-                                function(error) {
-                                
-                                alert("Error : \r\n"+error);      
-                                }
-                                );
-         */
+        window.plugins.musicLibrary.selectSongs(function(result) {
+                                                    console.log(result);
+                                                },
+                                                function() {
+                                                    console.log('error');
+                                                });
+        */
         window.location = "jasmine/SpecRunner.html";		
 	}
     
