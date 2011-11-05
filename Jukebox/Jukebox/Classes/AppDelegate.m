@@ -34,7 +34,7 @@
     [picker setDelegate: inDelegate];                                         
     [picker setAllowsPickingMultipleItems: YES];                        
     picker.prompt =
-    NSLocalizedString (@"Add songs to play",
+    NSLocalizedString (@"Add songs to publish",
                        "Prompt in media item picker");
     
     [self.viewController presentModalViewController: picker animated: YES];    
