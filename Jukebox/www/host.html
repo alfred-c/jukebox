@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+        <meta charset="utf-8">
+            
+            <link rel="stylesheet" href="css/jquery/jquery.mobile-1.0rc1.css" />
+            
+            <!-- iPad/iPhone specific css below, add after your main css >
+             <link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+             <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+             -->
+            <!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+            <!-- Javascript Framework Files -->
+            <script type="text/javascript" charset="utf-8" src="javascript/phonegap-1.1.0.js"></script>
+            <script type="text/javascript" charset="utf-8" src="javascript/jquery/jquery-1.6.4.js"></script>
+            <script type="text/javascript" charset="utf-8" src="javascript/jquery/jquery.mobile-1.0rc1.js"></script>
+            <script type="text/javascript" charset="utf-8" src="javascript/date.js"></script>
+            <!-- Plugins -->
+            <script type="text/javascript" charset="utf-8" src="javascript/plugins/musicplugin.js"></script>
+            
+            <!-- Javascript Source Files -->
+            <script type="text/javascript" charset="utf-8" src="javascript/logics/pgapi.js"></script>
+            <script type="text/javascript" charset="utf-8" src="javascript/logics/jukeboxapp.js"></script>
+            
+            <script type="text/javascript">
+                
+                
+                // If you want to prevent dragging, uncomment this section asdfasdf
+                /*
+                 function preventBehavior(e) 
+                 { 
+                 e.preventDefault(); 
+                 };
+                 document.addEventListener("touchmove", preventBehavior, false);
+                 */
+                
+                /* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+                 see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+                 for more details -jm */
+                /*
+                 function handleOpenURL(url)
+                 {
+                 // TODO: do something with the url passed in.
+                 }
+                 */
+                
+                function onBodyLoad()
+                {	
+                    document.addEventListener("deviceready", onDeviceReady, false);
+                }
+                
+                /* When this function is called, PhoneGap has been initialized and is ready to roll */
+                /* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+                 see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+                 for more details -jm */
+                function onDeviceReady()
+                {
+                }
+                
+                function updateSongList(){
+                    var jukeboxDOM = new Jukebox.DOM();
+                    if(songList.length <= 0) {
+                        $('#btnPublishEvent').addClass('ui-disabled');
+                        //$('#song-list').hide();
+                        $('#empty-song-list').show();
+                    }
+                    else {
+                        $('#btnPublishEvent').removeClass('ui-disabled');  
+                        //$('#song-list').show();
+                        $('#empty-song-list').hide();
+                    }
+                    $('#song-list').html(jukeboxDOM.renderListMediaItems(songList));
+                }
+                
+                function addSongs() {
+                    window.plugins.musicLibrary.selectSongs(
+                        ["Object"],
+                        function(result) {
+                            //console.log(result);
+                            for(i in result){
+                                songList.push(result[i]);
+                            }
+                            //songList = result;
+                            updateSongList();
+                        },
+                        function() {
+                            console.log('error');
+                    });
+                }
+                
+                var songList = [];
+                
+                </script>
+            </head>
+    <body onload="onBodyLoad()">        
+        <div data-role="page" id="selectSongPage">
+            <script>
+                $('#selectSongPage').live('pageinit',function(event){
+                    updateSongList();
+                });
+            </script>
+            <div data-role="header" data-position="fixed" data-theme="b">
+                <h1>Songs</h1>
+                <a href="#" data-icon="add" data-theme="b" class="ui-btn-right" onClick="addSongs();">Add</a>
+            </div>
+            <div data-role="content">
+                <div class="content-primary" >
+                    <ul data-role="listview" id="song-list" data-filter="true"></ul>
+                </div>
+                <div id="empty-song-list">
+                    The song list is empty.
+                    <br />
+                     Tab 
+                    <a href="#" data-role="button" onClick="addSongs();" data-theme="b" data-icon="add" data-inline="true" class="ui-btn ui-btn-inline ui-btn-icon-left ui-btn-corner-all ui-shadow ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all" aria-hidden="true"><span class="ui-btn-text">Add</span><span class="ui-icon ui-icon-add ui-icon-shadow"></span></span></a>
+                     to add songs
+                </div>
+                <br />
+                <div>
+                    <a href="#" data-role="button" data-theme="b" id="btnPublishEvent">Publish</a>
+                </div>
+            </div>
+		</div>
+    </body>
+</html>

@@ -35,7 +35,6 @@
 		C8DE8186145DD49D00FAF30F /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8DE8185145DD49D00FAF30F /* PhoneGap.plist */; };
 		C8DE818A145DD49D00FAF30F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DE8189145DD49D00FAF30F /* AppDelegate.m */; };
 		C8DE8193145DD4E700FAF30F /* www in Resources */ = {isa = PBXBuildFile; fileRef = C8DE8192145DD4E700FAF30F /* www */; };
-		FC090D161464817100DEAC29 /* user.html in Resources */ = {isa = PBXBuildFile; fileRef = FC090D151464817100DEAC29 /* user.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,7 +72,6 @@
 		C8DE8189145DD49D00FAF30F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		C8DE818C145DD49D00FAF30F /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		C8DE8192145DD4E700FAF30F /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		FC090D151464817100DEAC29 /* user.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = user.html; path = www/user.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				C8DE8192145DD4E700FAF30F /* www */,
-				FC090D151464817100DEAC29 /* user.html */,
 				C8DE8163145DD49D00FAF30F /* Jukebox */,
 				C8DE8148145DD49D00FAF30F /* Frameworks */,
 				C8DE8146145DD49D00FAF30F /* Products */,
@@ -302,7 +299,6 @@
 				C8DE8184145DD49D00FAF30F /* Capture.bundle in Resources */,
 				C8DE8186145DD49D00FAF30F /* PhoneGap.plist in Resources */,
 				C8DE8193145DD4E700FAF30F /* www in Resources */,
-				FC090D161464817100DEAC29 /* user.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
