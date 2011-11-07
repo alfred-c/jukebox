@@ -79,11 +79,13 @@
                     window.plugins.musicLibrary.selectSongs(
                         ["Object"],
                         function(result) {
-                            console.log(result);
+                            //console.log(result);
+                            var jukeboxUtil = new Jukebox.Utilities();
+                            //console.log(jukeboxUtil);
                             for(i in result){
-                                songList.push(result[i]);
+                                //console.log(result[i]);
+                                jukeboxUtil.addSong(result[i], songList);
                             }
-                            //songList = result;
                             updateSongList();
                         },
                         function() {

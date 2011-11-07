@@ -1,5 +1,17 @@
 var Jukebox = Jukebox || {};
 
+/*Utilities
+ *
+ */
+
+Jukebox.Utilities = function () {};
+Jukebox.Utilities.prototype.addSong = function (song, songList) {
+    for(var i = 0; i < songList.length; i++)
+        if(songList[i].persistentID == song.persistentID)
+            return false;
+    songList.push(song);
+    return true;
+};
 
 /*DOM object
  *contains all functions for rendering html interface from data
