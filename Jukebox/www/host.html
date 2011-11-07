@@ -58,14 +58,16 @@
                  for more details -jm */
                 function onDeviceReady()
                 {
+                    
                     window.plugins.musicLibrary.setupMusicPlayer(function (result){
                                                                  console.log(result);
-                                                                 },
-                                                                 function (error) {
-                                                                 console.log(error);
-                                                                 });
-                    window.plugins.musicLibrary.setupMusicPlayer(function (result){
-                                                                 console.log(result);
+                                                                 window.plugins.musicLibrary.playSongWithId("17523447247012173760",
+                                                                                                              function (result){
+                                                                                                              console.log(result);
+                                                                                                              },
+                                                                                                              function (error) {
+                                                                                                              console.log(error);
+                                                                                                              });
                                                                  },
                                                                  function (error) {
                                                                  console.log(error);
@@ -96,7 +98,7 @@
                             var jukeboxUtil = new Jukebox.Utilities();
                             //console.log(jukeboxUtil);
                             for(i in result){
-                                //console.log(result[i]);
+                                console.log(result[i]);
                                 jukeboxUtil.addSong(result[i], songList);
                             }
                             updateSongList();

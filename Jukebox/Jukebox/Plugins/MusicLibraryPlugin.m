@@ -12,7 +12,7 @@
 
 @synthesize callbackID;
 @synthesize returnType;
-#pragma Utility Methods
+#pragma mark Utility Methods
 
 -(NSString *) jsonStringFromPropertyValue:(NSObject *) object{
     if(object == nil) {
@@ -24,27 +24,31 @@
 }
 
 -(NSString *) jsonStringFromMediaItem:(MPMediaItem *) item{
-    NSString *jsonStr = [NSString stringWithFormat:@"{\"persistentID\":%@",[item valueForKey:MPMediaEntityPropertyPersistentID]];
+    //NSLog(@"%@",item);
+    //NSString *objStr = [NSString stringWithFormat:@"%@", item];
+    //objStr = [objStr substringFromIndex:[objStr rangeOfString:@">"].location + 1];
+    //NSString *jsonStr = [NSString stringWithFormat:@"{\"persistentID\":%@", objStr];
+    NSString *jsonStr = [NSString stringWithFormat:@"{\"persistentID\":\"%llu\"", [[item valueForProperty:MPMediaItemPropertyPersistentID] unsignedLongLongValue]];
     jsonStr = [jsonStr stringByAppendingFormat:@",\"title\":%@", 
-               [self jsonStringFromPropertyValue:[item valueForKey:MPMediaItemPropertyTitle]]];
+               [self jsonStringFromPropertyValue:[item valueForProperty:MPMediaItemPropertyTitle]]];
     jsonStr = [jsonStr stringByAppendingFormat:@",\"albumTitle\":%@", 
-               [self jsonStringFromPropertyValue:[item valueForKey:MPMediaItemPropertyAlbumTitle]]];
+               [self jsonStringFromPropertyValue:[item valueForProperty:MPMediaItemPropertyAlbumTitle]]];
     jsonStr = [jsonStr stringByAppendingFormat:@",\"artist\":%@", 
-               [self jsonStringFromPropertyValue:[item valueForKey:MPMediaItemPropertyArtist]]];
+               [self jsonStringFromPropertyValue:[item valueForProperty:MPMediaItemPropertyArtist]]];
     jsonStr = [jsonStr stringByAppendingFormat:@",\"albumArtist\":%@", 
-               [self jsonStringFromPropertyValue:[item valueForKey:MPMediaItemPropertyAlbumArtist]]];
+               [self jsonStringFromPropertyValue:[item valueForProperty:MPMediaItemPropertyAlbumArtist]]];
     jsonStr = [jsonStr stringByAppendingFormat:@",\"genre\":%@", 
-               [self jsonStringFromPropertyValue:[item valueForKey:MPMediaItemPropertyGenre]]];
+               [self jsonStringFromPropertyValue:[item valueForProperty:MPMediaItemPropertyGenre]]];
     jsonStr = [jsonStr stringByAppendingFormat:@",\"playbackDuration\":%@", 
-               [self jsonStringFromPropertyValue:[item valueForKey:MPMediaItemPropertyPlaybackDuration]]];
+               [self jsonStringFromPropertyValue:[item valueForProperty:MPMediaItemPropertyPlaybackDuration]]];
     //in second
     //jsonStr = [jsonStr stringByAppendingFormat:@",\"artwork\":%@", 
-    //           [item valueForKey:MPMediaItemPropertyArtwork]];
+    //           [item valueForProperty:MPMediaItemPropertyArtwork]];
     //sending image thru json, need further research
     jsonStr = [jsonStr stringByAppendingFormat:@",\"releaseDate\":%@", 
-               [self jsonStringFromPropertyValue:[item valueForKey:MPMediaItemPropertyReleaseDate]]];
+               [self jsonStringFromPropertyValue:[item valueForProperty:MPMediaItemPropertyReleaseDate]]];
     //jsonStr = [jsonStr stringByAppendingFormat:@",\"assetURL\":%@", 
-    //           [(NSURL *)[item valueForKey:MPMediaItemPropertyAssetURL] absoluteString]];
+    //           [(NSURL *)[item valueForProperty:MPMediaItemPropertyAssetURL] absoluteString]];
     //getting assetURL outside AV Foundation Framework is not supported
     jsonStr = [jsonStr stringByAppendingFormat:@"}"];
     return jsonStr;
@@ -52,6 +56,7 @@
 
 -(NSArray *) jsonArrayFromMediaCollection:(MPMediaItemCollection *) collection{
     NSMutableArray *itemArray = [NSMutableArray arrayWithCapacity:collection.count];
+    NSLog(@"%@", [[collection representativeItem] valueForProperty:MPMediaItemPropertyPersistentID]);
     for (MPMediaItem *item in collection.items) {
         [itemArray addObject:[self jsonStringFromMediaItem:item]];
     }
@@ -59,7 +64,7 @@
     return [NSArray arrayWithArray:itemArray];
 }
 
-#pragma Plugin Methods
+#pragma mark Plugin Methods
 
 -(void)print:(NSMutableArray*)arguments 
     withDict:(NSMutableDictionary*)options {
@@ -125,13 +130,19 @@
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         MPMusicPlayerController* appMusicPlayer = appDelegate.appMusicPlayer;
         
-        //query for the song
+        //query for the song        
+        //unsigned long long ullvalue = strtoull([@"17523447247012173760" UTF8String], NULL, 0);
+        unsigned long long ullvalue = strtoull([[arguments objectAtIndex:0] UTF8String], NULL, 0);
+        NSNumber * numberID = [[NSNumber alloc] initWithUnsignedLongLong:ullvalue];
+        MPMediaPropertyPredicate * predicate = 
+            [MPMediaPropertyPredicate predicateWithValue:numberID 
+                                             forProperty:MPMediaItemPropertyPersistentID];
+        [numberID release];
         MPMediaQuery *query = [[MPMediaQuery alloc] init];
-        
-        [query addFilterPredicate: [MPMediaPropertyPredicate
-                                    predicateWithValue: [arguments objectAtIndex:0]
-                                    forProperty: MPMediaItemPropertyPersistentID]];
-        
+        [query addFilterPredicate:predicate];
+        NSLog(@"%@",numberID);
+        NSLog(@"%@",[query items]);
+        NSLog(@"%@",[query collections]);
         //set up the queue with the song
         [appMusicPlayer setQueueWithQuery:query];
         
@@ -173,7 +184,7 @@
     
 }
 
-#pragma MediaPickerController Deletage Methods
+#pragma mark MediaPickerController Deletage Methods
 
 - (void) mediaPicker: (MPMediaPickerController *) mediaPicker
    didPickMediaItems: (MPMediaItemCollection *) collection {
