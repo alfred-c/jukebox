@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <MediaPlayer/MPMediaPickerController.h>
+#import <MediaPlayer/MediaPlayer.h>
 #import <PhoneGap/PGPlugin.h>
 #import "AppDelegate.h"
 

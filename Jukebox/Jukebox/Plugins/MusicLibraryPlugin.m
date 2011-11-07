@@ -96,14 +96,14 @@
     self.callbackID = [arguments pop];
     @try {
 #if TARGET_IPHONE_SIMULATOR
-        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK 
-                                                     messageAsArray:[NSArray array]];
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                    messageAsString:[@"Music Player is not available in iPhone Simulator" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
 #else
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate setupMediaPlayer];
-        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK 
-                                                     messageAsArray:[NSArray array]];
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                    messageAsString:[@"Music Player set up" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
 #endif
     }
@@ -114,7 +114,39 @@
 }
 
 - (void) playSongWithId:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options{
-    
+    self.callbackID = [arguments pop];
+    @try {
+#if TARGET_IPHONE_SIMULATOR
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                    messageAsString:[@"Music Player is not available in iPhone Simulator" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+#else
+        //get the player
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        MPMusicPlayerController* appMusicPlayer = appDelegate.appMusicPlayer;
+        
+        //query for the song
+        MPMediaQuery *query = [[MPMediaQuery alloc] init];
+        
+        [query addFilterPredicate: [MPMediaPropertyPredicate
+                                    predicateWithValue: [arguments objectAtIndex:0]
+                                    forProperty: MPMediaItemPropertyPersistentID]];
+        
+        //set up the queue with the song
+        [appMusicPlayer setQueueWithQuery:query];
+        
+        //play it
+        [appMusicPlayer play];
+        
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                    messageAsString:[@"Music Player is playing" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+#endif
+    }
+    @catch (NSException *exception) {
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:                        [exception.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
+    }
 }
 
 - (void) selectSongs:(NSMutableArray*)arguments 
