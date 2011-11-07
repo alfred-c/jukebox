@@ -58,6 +58,19 @@
                  for more details -jm */
                 function onDeviceReady()
                 {
+                    window.plugins.musicLibrary.setupMusicPlayer(function (result){
+                                                                 console.log(result);
+                                                                 },
+                                                                 function (error) {
+                                                                 console.log(error);
+                                                                 });
+                    window.plugins.musicLibrary.setupMusicPlayer(function (result){
+                                                                 console.log(result);
+                                                                 },
+                                                                 function (error) {
+                                                                 console.log(error);
+                                                                 });
+                    
                 }
                 
                 function updateSongList(){
@@ -92,6 +105,8 @@
                             console.log('error');
                     });
                 }
+                
+                
                 
                 var songList = [];
                 

@@ -12,8 +12,8 @@ MusicLibrary.prototype.setupMusicPlayer = function (success, fail) {
     return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "setupMusicPlayer", []);
 };
 
-MusicLibrary.prototype.playSongWithId = function (types, success, fail) {
-    return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "playSongWithId", types);
+MusicLibrary.prototype.playSongWithId = function (persistentId, success, fail) {
+    return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "playSongWithId", [persistentId]);
 };
 
 MusicLibrary.prototype._castMediaItems = function(pluginResult) {
