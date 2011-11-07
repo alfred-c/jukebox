@@ -58,21 +58,7 @@
                  for more details -jm */
                 function onDeviceReady()
                 {
-                    
-                    window.plugins.musicLibrary.setupMusicPlayer(function (result){
-                                                                 console.log(result);
-                                                                 window.plugins.musicLibrary.playSongWithId("17523447247012173760",
-                                                                                                              function (result){
-                                                                                                              console.log(result);
-                                                                                                              },
-                                                                                                              function (error) {
-                                                                                                              console.log(error);
-                                                                                                              });
-                                                                 },
-                                                                 function (error) {
-                                                                 console.log(error);
-                                                                 });
-                    
+                                        
                 }
                 
                 function updateSongList(){
@@ -108,7 +94,25 @@
                     });
                 }
                 
-                
+                function publishList() {
+                    if(songList.length <= 0) return;
+                    window.plugins.musicLibrary.setupMusicPlayer(
+                        function (result){
+                            console.log(result);
+                            window.plugins.musicLibrary.playSongWithId(
+                                songList[0].persistentID,
+                                function (result){
+                                    console.log(result);
+                                },
+                                function (error) {
+                                    console.log(error);
+                                });
+                        },
+                        function (error) {
+                            console.log(error);
+                        });
+ 
+                }
                 
                 var songList = [];
                 
@@ -122,6 +126,7 @@
                 });
             </script>
             <div data-role="header" data-position="fixed" data-theme="b">
+                <a data-rel="back" data-icon="arrow-l" data-theme="b">Home</a>
                 <h1>Songs</h1>
                 <a href="#" data-icon="add" data-theme="b" class="ui-btn-right" onClick="addSongs();">Add</a>
             </div>
@@ -144,7 +149,7 @@
                             <a href="#" data-role="button" data-theme="c" id="btnClearSong" onClick="songList=[];updateSongList();">Clear</a>
                         </div>
 						<div class="ui-block-b">
-                            <a href="#" data-role="button" data-theme="b" id="btnPublishEvent">Publish</a>
+                            <a href="#" data-role="button" data-theme="b" id="btnPublishEvent" onClick="publishList();">Publish</a>
 
                         </div>
 					</fieldset>
