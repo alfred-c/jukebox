@@ -16,6 +16,7 @@
 @implementation AppDelegate
 
 @synthesize invokeString;
+@synthesize appMusicPlayer;
 
 - (id) init
 {	
@@ -25,7 +26,7 @@
     return [super init];
 }
 
-
+#pragma MusicPlayer
 - (void) presentMediaPickerFor:(id) inDelegate{
     MPMediaPickerController *picker =
     [[MPMediaPickerController alloc]
@@ -44,6 +45,14 @@
 - (void) dismissMediaPicker{
     [self.viewController dismissModalViewControllerAnimated: YES];
 }
+
+- (void) setupMediaPlayer{
+    self.appMusicPlayer = [MPMusicPlayerController applicationMusicPlayer];
+    [self.appMusicPlayer setShuffleMode:MPMusicShuffleModeOff];
+    [self.appMusicPlayer setRepeatMode:MPMusicRepeatModeNone];
+}
+
+
 
 /**
  * This is main kick off after the app inits, the views and Settings are setup here. (preferred - iOS4 and up)

@@ -92,6 +92,31 @@
     
 }
 
+- (void) setupMusicPlayer:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options{
+    self.callbackID = [arguments pop];
+    @try {
+#if TARGET_IPHONE_SIMULATOR
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK 
+                                                     messageAsArray:[NSArray array]];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+#else
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate setupMediaPlayer];
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK 
+                                                     messageAsArray:[NSArray array]];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+#endif
+    }
+    @catch (NSException *exception) {
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:                        [exception.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
+    }
+}
+
+- (void) playSongWithId:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options{
+    
+}
+
 - (void) selectSongs:(NSMutableArray*)arguments 
             withDict:(NSMutableDictionary*)option{
     self.callbackID = [arguments pop];

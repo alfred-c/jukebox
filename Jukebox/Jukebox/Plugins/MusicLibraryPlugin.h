@@ -22,5 +22,6 @@
 
 - (void) print:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) selectSongs:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
-
+- (void) playSongWithId:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setupMusicPlayer:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 @end

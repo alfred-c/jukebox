@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MediaPlayer/MPMediaPickerController.h>
+#import <MediaPlayer/MediaPlayer.h>
 #ifdef PHONEGAP_FRAMEWORK
 	#import <PhoneGap/PhoneGapDelegate.h>
 #else
@@ -17,6 +17,7 @@
 @interface AppDelegate : PhoneGapDelegate {
 
 	NSString* invokeString;
+    MPMusicPlayerController* appMusicPlayer;
 }
 
 // invoke string is passed to your app on launch, this is only valid if you 
@@ -25,8 +26,11 @@
 // http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
 
 @property (copy)  NSString* invokeString;
+@property (nonatomic, retain) MPMusicPlayerController* appMusicPlayer;
 
 - (void) presentMediaPickerFor:(id<MPMediaPickerControllerDelegate>) inDelegate;
 - (void) dismissMediaPicker;
+
+- (void) setupMediaPlayer;
 @end
 

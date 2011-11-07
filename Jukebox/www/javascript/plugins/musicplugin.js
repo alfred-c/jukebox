@@ -8,6 +8,10 @@ MusicLibrary.prototype.selectSongs = function (types, success, fail) {
     return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "selectSongs", types);
 };
 
+MusicLibrary.prototype.setupMusicPlayer = function (success, fail) {
+    return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "setupMusicPlayer", types);
+};
+
 MusicLibrary.prototype._castMediaItems = function(pluginResult) {
     var entries = pluginResult.message;
 	var retVal = []; 
