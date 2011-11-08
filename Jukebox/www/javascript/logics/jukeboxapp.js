@@ -13,6 +13,12 @@ Jukebox.Utilities.prototype.addSong = function (song, songList) {
     return true;
 };
 
+Jukebox.Utilities.prototype.getEvents = function(callback) {
+	$.get('http://jukebox-shawnobanion.dotcloud.com/event/list/', function(data) {
+		  callback(data);		  
+		  });
+};
+
 /*DOM object
  *contains all functions for rendering html interface from data
  */
@@ -42,4 +48,20 @@ Jukebox.DOM.prototype.formatTimeInterval = function(seconds) {
     return (new Date).clearTime()
                      .addSeconds(seconds)
                      .toString('mm:ss');
+};
+
+Jukebox.DOM.prototype.renderEventListItems = function(events) {
+	html = '';
+	for (i in events) {
+		html += this.renderEventListItem(events[i]);
+	}		
+	return html;
+};
+
+Jukebox.DOM.prototype.renderEventListItem = function(event) {
+    var html = '';
+	html += '<li data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-down-c ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#controls" class="ui-link-inherit">';
+	html += '<h3 class="ui-li-heading">' + event.name + '</h3>';
+	html += '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div></li>';
+    return html;
 };
