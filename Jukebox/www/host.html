@@ -58,7 +58,7 @@
                  for more details -jm */
                 function onDeviceReady()
                 {
-                                        
+                    var jukeboxUtil = new Jukebox.Utilities();
                 }
                 
                 function updateSongList(){
@@ -127,18 +127,27 @@
             </script>
             <div data-role="header" data-position="fixed" data-theme="b">
                 <a data-rel="back" data-icon="arrow-l" data-theme="b">Home</a>
-                <h1>Songs</h1>
+                <h1>Create Event</h1>
                 <a href="#" data-icon="add" data-theme="b" class="ui-btn-right" onClick="addSongs();">Add</a>
             </div>
+			<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-b">Event Details</li>
             <div data-role="content">
                 <div class="content-primary" >
+						<div class="ui-hide-label">
+							<input type="text" name="eventname" id="eventname" value="" placeholder="Enter your event name here"/>
+				</div>
+			</div>
+		</div>
+			<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-b">Add Songs</li>
+			<p>
+			<div data-role="content">
                     <ul data-role="listview" id="song-list" data-filter="true"></ul>
                 </div>
                 <div id="empty-song-list">
                     <br />
                     The song list is empty.
                     <br />
-                     Tab 
+                     Tap 
                     <a href="#" data-role="button" onClick="addSongs();" data-theme="b" data-icon="add" data-inline="true" class="ui-btn ui-btn-inline ui-btn-icon-left ui-btn-corner-all ui-shadow ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all" aria-hidden="true"><span class="ui-btn-text">Add</span><span class="ui-icon ui-icon-add ui-icon-shadow"></span></span></a>
                      to add songs
                 </div>
@@ -155,6 +164,7 @@
 					</fieldset>
                 </div>
             </div>
+			</div>
 		</div>
     </body>
 </html>
