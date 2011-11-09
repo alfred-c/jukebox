@@ -58,14 +58,27 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
-        //window.location = "jasmine/SpecRunner.html";	
 		var jukeboxUtil = new Jukebox.Utilities();
 		jukeboxUtil.getEvents(displayEvents);
 	}
-	
+
 	function displayEvents(events) {
 		var jukeboxDOM = new Jukebox.DOM();
 		$('#eventsList').html(jukeboxDOM.renderEventListItems(events));
+	}
+	
+	function getSongs(eventId) {
+		var jukeboxUtil = new Jukebox.Utilities();
+		jukeboxUtil.getEventSongs(eventId, displaySongs);
+	}
+	
+	function displaySongs(songs) {
+		var jukeboxDOM = new Jukebox.DOM();
+		$('#songsList').html(jukeboxDOM.renderSongListItems(songs));
+	}
+	
+	function clickSong(songId) {
+		alert(songId);
 	}
     
     </script>
@@ -110,8 +123,8 @@
 			</div>
 		   <div data-role="content">
 				<div class="content-primary">	
-					<ul data-role="listview">
-						<li>
+					<ul data-role="listview" id="songsList">
+						<!--<li>
 							<a href="#">
 								<img src="css/jquery/images/album-bb.jpg" />
 								<h3>Broken Bells</h3>
@@ -152,7 +165,7 @@
 								<h3>Kid A</h3>
 								<p>Radiohead</p>
 							</a>
-						</li>
+						</li>-->
 					</ul>
 				</div>
 			</div>
