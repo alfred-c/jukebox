@@ -21,7 +21,7 @@ Jukebox.Utilities.prototype.getEvents = function(callback) {
 
 Jukebox.Utilities.prototype.getEventSongs = function(eventId, callback) {
 	$.get('http://jukebox-shawnobanion.dotcloud.com/event/songs/' + eventId, function(data) {
-		  callback(data);		  
+		  callback(data, eventId);		  
 		  });
 };
 
@@ -37,6 +37,13 @@ Jukebox.Utilities.prototype.addEvent = function(event, callback) {
 		   // Successfully added
 		   callback(true);
 		   });
+};
+
+Jukebox.Utilities.prototype.requestSong = function(songId, eventId, callback) {
+	url = 'http://jukebox-shawnobanion.dotcloud.com/event/enqueuesong/' + eventId + '/' + songId;
+	$.get(url, function(data) {
+		  callback(data);		  
+		  });
 };
 
 /*DOM object
@@ -86,18 +93,18 @@ Jukebox.DOM.prototype.renderEventListItem = function(event) {
     return html;
 };
 
-Jukebox.DOM.prototype.renderSongListItems = function(songs) {
+Jukebox.DOM.prototype.renderSongListItems = function(songs, eventId) {
 	html = '';
 	for (i in songs) {
-		html += this.renderSongListItem(songs[i]);
+		html += this.renderSongListItem(songs[i], eventId);
 	}		
 	return html;
 };
 
-Jukebox.DOM.prototype.renderSongListItem = function(song) {
+Jukebox.DOM.prototype.renderSongListItem = function(song, eventId) {
     var html = '';
 	html += '<li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
-	html += '<a href="#" onclick="clickSong(\'' + song.persistentID + '\');" class="ui-link-inherit">';
+	html += '<a href="#" onclick="clickSong(\'' + song.persistentID + '\', \'' + eventId + '\');" class="ui-link-inherit">';
 	html += '<img src="css/jquery/images/album-bb.jpg" class="ui-li-thumb">';
 	html += '<h3 class="ui-li-heading">' + song.title + '</h3>';
 	html += '<p class="ui-li-desc">' + song.artist + '</p>';

@@ -72,13 +72,18 @@
 		jukeboxUtil.getEventSongs(eventId, displaySongs);
 	}
 	
-	function displaySongs(songs) {
+	function displaySongs(songs, eventId) {
 		var jukeboxDOM = new Jukebox.DOM();
-		$('#songsList').html(jukeboxDOM.renderSongListItems(songs));
+		$('#songsList').html(jukeboxDOM.renderSongListItems(songs, eventId));
 	}
 	
-	function clickSong(songId) {
-		alert(songId);
+	function clickSong(songId, eventId) {
+		var jukeboxUtil = new Jukebox.Utilities();
+		jukeboxUtil.requestSong(songId, eventId, songRequestSuccess);
+	}
+	
+	function songRequestSuccess(data) {
+		alert("You've successfully requested this song!");
 	}
     
     </script>
