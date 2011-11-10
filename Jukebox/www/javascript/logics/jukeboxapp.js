@@ -156,11 +156,11 @@ Jukebox.DOM.prototype.renderSongListItems = function(songs, eventId) {
 
 Jukebox.DOM.prototype.renderSongListItem = function(song, eventId) {
     var html = '';
-	html += '<li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
+	html += '<li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
 	html += '<a href="#" onclick="clickSong(\'' + song.persistentID + '\', \'' + eventId + '\');" class="ui-link-inherit">';
-	html += '<img src="css/jquery/images/album-bb.jpg" class="ui-li-thumb">';
+	//html += '<img src="css/jquery/images/album-bb.jpg" class="ui-li-thumb">';
 	html += '<h3 class="ui-li-heading">' + song.title + '</h3>';
-	html += '<p class="ui-li-desc">' + song.artist + '</p>';
+	html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) + ')</p>';
 	html += '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div></li>';
 	return html
 };
