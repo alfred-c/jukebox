@@ -6,11 +6,63 @@ Jukebox.Event = function (eventName, songList, isItFree) {
     this.isFree = isItFree;
 };
 
+/*Services
+ *contains all functions and variables to contact with the server.
+ */
+
+Jukebox.Services = functions () {
+    var root = 'http://jukebox-shawnobanion.dotcloud.com/';
+};
+
+
+Jukebox.Services.prototype.getEvents = function(callback) {
+	$.get(root + 'event/list/', function(data) {
+		  callback(data);		  
+		  });
+};
+
+Jukebox.Services.prototype.getEventSongs = function(eventId, callback) {
+	$.get(root + 'event/songs/' + eventId, function(data) {
+		  callback(data, eventId);		  
+		  });
+};
+
+Jukebox.Services.prototype.addEvent = function(event, callback) {
+	var url = root+ 'event/create/';
+	
+    
+	//SAMPLE EVENT:
+	//event = {"name":"Tommy Nevin's Pub","songs":[{"persistentID":"7407864994792753601","title":"Also Sprach Zarathustra - Tone Poem For Large Orchestra, Op. 30: Introduction","albumTitle":"The 100 Most Essential Pieces of Classical Music","artist":"Southwest German Radio Symphony Orchestra & Ferdinand Leitner","albumArtist":"Various Artists","genre":"Classical","playbackDuration":"92.666","releaseDate":"2010-06-22 12:00:00 +0000"},{"persistentID":"17947838929277235736","title":"Always","albumTitle":"Extra's","artist":"Breaking Benjamin","albumArtist":"Breaking Benjamin","genre":"AlternRock","playbackDuration":"230.424","releaseDate":null},{"persistentID":"5486537098218507377","title":"The End","albumTitle":"The Black Parade","artist":"My Chemical Romance","albumArtist":"My Chemical Romance","genre":"Rock","playbackDuration":"112.979","releaseDate":null}]};
+    
+	//console.log(JSON.stringify(event));
+	$.post(url,JSON.stringify(event), function(data){
+		   // This returns the event ID
+		   callback(data);
+		   });
+};
+
+Jukebox.Services.prototype.requestSong = function(songId, eventId, callback) {
+	url = root + 'event/enqueuesong/' + eventId + '/' + songId;
+	$.get(url, function(data) {
+		  callback(data);		  
+		  });
+};
+
+Jukebox.Services.prototype.getQueue = function(eventId, callback) {
+    var url = root+'event/queue/' + eventId;
+    //console.log(url);
+	$.get(url, function(data) {
+		  callback(data, eventId);		  
+		  });
+};
+
+
 /*Utilities
  *
  */
 
 Jukebox.Utilities = function () {};
+
 Jukebox.Utilities.prototype.addSong = function (song, songList) {
     for(var i = 0; i < songList.length; i++)
         if(songList[i].persistentID == song.persistentID)
@@ -19,46 +71,10 @@ Jukebox.Utilities.prototype.addSong = function (song, songList) {
     return true;
 };
 
-Jukebox.Utilities.prototype.getEvents = function(callback) {
-	$.get('http://jukebox-shawnobanion.dotcloud.com/event/list/', function(data) {
-		  callback(data);		  
-		  });
-};
 
-Jukebox.Utilities.prototype.getEventSongs = function(eventId, callback) {
-	$.get('http://jukebox-shawnobanion.dotcloud.com/event/songs/' + eventId, function(data) {
-		  callback(data, eventId);		  
-		  });
-};
-
-Jukebox.Utilities.prototype.addEvent = function(event, callback) {
-	var url = 'http://jukebox-shawnobanion.dotcloud.com/event/create/';
-	
-
-	//SAMPLE EVENT:
-	//event = {"name":"Tommy Nevin's Pub","songs":[{"persistentID":"7407864994792753601","title":"Also Sprach Zarathustra - Tone Poem For Large Orchestra, Op. 30: Introduction","albumTitle":"The 100 Most Essential Pieces of Classical Music","artist":"Southwest German Radio Symphony Orchestra & Ferdinand Leitner","albumArtist":"Various Artists","genre":"Classical","playbackDuration":"92.666","releaseDate":"2010-06-22 12:00:00 +0000"},{"persistentID":"17947838929277235736","title":"Always","albumTitle":"Extra's","artist":"Breaking Benjamin","albumArtist":"Breaking Benjamin","genre":"AlternRock","playbackDuration":"230.424","releaseDate":null},{"persistentID":"5486537098218507377","title":"The End","albumTitle":"The Black Parade","artist":"My Chemical Romance","albumArtist":"My Chemical Romance","genre":"Rock","playbackDuration":"112.979","releaseDate":null}]};
-
-	console.log(JSON.stringify(event));
-	$.post(url,JSON.stringify(event), function(data){
-		   // This returns the event ID
-		   callback(data);
-		   });
-};
-
-Jukebox.Utilities.prototype.requestSong = function(songId, eventId, callback) {
-	url = 'http://jukebox-shawnobanion.dotcloud.com/event/enqueuesong/' + eventId + '/' + songId;
-	$.get(url, function(data) {
-		  callback(data);		  
-		  });
-};
-
-Jukebox.Utilities.prototype.getQueue = function(eventId, callback) {
-    var url = 'http://jukebox-shawnobanion.dotcloud.com/event/queue/' + eventId;
-    //console.log(url);
-	$.get(url, function(data) {
-		  callback(data, eventId);		  
-		  });
-};
+/*Player
+ *contains all functions for controlling music player
+ */
 
 Jukebox.Player = function() {};
 Jukebox.Player.prototype.startPlayer = function(eventId) {
@@ -66,9 +82,9 @@ Jukebox.Player.prototype.startPlayer = function(eventId) {
 };
 
 Jukebox.Player.prototype.playFirstSong = function(eventId) {
-    var jukeboxUtil = new Jukebox.Utilities();
+    var jukeboxServices = new Jukebox.Services();
     var self = this;
-    jukeboxUtil.getQueue(eventId,
+    jukeboxServices.getQueue(eventId,
                          function(queue, eventId) {
                             if(queue.length <= 0) {
                                 console.log("No queue");

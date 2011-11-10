@@ -58,7 +58,6 @@
                  for more details -jm */
                 function onDeviceReady()
                 {
-                    var jukeboxUtil = new Jukebox.Utilities();
                 }
                 
                 function updateSongList(){
@@ -80,11 +79,8 @@
                     window.plugins.musicLibrary.selectSongs(
                         ["Object"],
                         function(result) {
-                            // console.log(result);
                             var jukeboxUtil = new Jukebox.Utilities();
-                            // console.log(jukeboxUtil);
                             for(i in result){
-                                //console.log(result[i]);
                                 jukeboxUtil.addSong(result[i], songList);
                             }
                             updateSongList();
@@ -95,36 +91,16 @@
                 }
                 
                 function publishList() {
-                    var jukeboxUtil = new Jukebox.Utilities();
+                    var jukeboxServices = new Jukebox.Services();
                     var event = new Jukebox.Event(document.getElementById('eventname').value, songList, false);
-                    //console.log(event);
-                    jukeboxUtil.addEvent(event,
-                                                           function (data) {
-                                                           eventId = data;
-                                                           console.log(data);
-                                                           if(eventId != "") {
-                                                            $.mobile.changePage($('#playingSongPage'))
-                                                           }
-                                                           });
-                    
-                    /*
-                    if(songList.length <= 0) return;
-                    window.plugins.musicLibrary.setupMusicPlayer(
-                        function (result){
-                            console.log(result);
-                            window.plugins.musicLibrary.playSongWithId(
-                                songList[0].persistentID,
-                                function (result){
-                                    console.log(result);
-                                },
-                                function (error) {
-                                    console.log(error);
-                                });
-                        },
-                        function (error) {
-                            console.log(error);
-                        });
-                     */
+                    jukeboxServices.addEvent(event,
+                        function (data) {
+                            eventId = data;
+                            console.log(data);
+                            if(eventId != "") {
+                                $.mobile.changePage($('#playingSongPage'))
+                            }
+                    });
                 }
                 
                 function startPlaySongs() {
@@ -133,16 +109,7 @@
                 }
                 
                 var songList = [];
-                var eventId = "";
-                 /*                        
-				function createEvent(name, songs) {
-					var eventJSON = {	"name": name,
-										"songs": songList
-									};
-				}
-                  */                       
-                                
-                
+                var eventId = "";                  
                 </script>
             </head>
     <body onload="onBodyLoad()">        

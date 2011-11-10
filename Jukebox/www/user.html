@@ -59,8 +59,8 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
-		var jukeboxUtil = new Jukebox.Utilities();
-		jukeboxUtil.getEvents(displayEvents);
+		var jukeboxServices = new Jukebox.Services();
+		jukeboxServices.getEvents(displayEvents);
 	}
 
 	function displayEvents(events) {
@@ -69,8 +69,8 @@
 	}
 	
 	function getSongs(eventId) {
-		var jukeboxUtil = new Jukebox.Utilities();
-		jukeboxUtil.getEventSongs(eventId, displaySongs);
+		var jukeboxServices = new Jukebox.Services();
+		jukeboxServices.getEventSongs(eventId, displaySongs);
 	}
 	
 	function displaySongs(songs, eventId) {
@@ -79,8 +79,8 @@
 	}
 	
 	function clickSong(songId, eventId) {
-		var jukeboxUtil = new Jukebox.Utilities();
-		jukeboxUtil.requestSong(songId, eventId, songRequestSuccess);
+		var jukeboxServices = new Jukebox.Services();
+		jukeboxServices.requestSong(songId, eventId, songRequestSuccess);
 	}
 	
 	function songRequestSuccess(data) {
