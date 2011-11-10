@@ -81,10 +81,10 @@
                         ["Object"],
                         function(result) {
                             // console.log(result);
-                            // var jukeboxUtil = new Jukebox.Utilities();
+                            var jukeboxUtil = new Jukebox.Utilities();
                             // console.log(jukeboxUtil);
                             for(i in result){
-                                console.log(result[i]);
+                                //console.log(result[i]);
                                 jukeboxUtil.addSong(result[i], songList);
                             }
                             updateSongList();
@@ -95,6 +95,19 @@
                 }
                 
                 function publishList() {
+                    var jukeboxUtil = new Jukebox.Utilities();
+                    var event = new Jukebox.Event(document.getElementById('eventname').value, songList, false);
+                    //console.log(event);
+                    jukeboxUtil.addEvent(event,
+                                                           function (data) {
+                                                           eventId = data;
+                                                           console.log(data);
+                                                           if(eventId != "") {
+                                                            $.mobile.changePage($('#playingSongPage'))
+                                                           }
+                                                           });
+                    
+                    /*
                     if(songList.length <= 0) return;
                     window.plugins.musicLibrary.setupMusicPlayer(
                         function (result){
@@ -111,16 +124,24 @@
                         function (error) {
                             console.log(error);
                         });
- 
+                     */
+                }
+                
+                function startPlaySongs() {
+                    var player = new Jukebox.Player();
+                    player.startPlayer(eventId);
                 }
                 
                 var songList = [];
-
+                var eventId = "";
+                 /*                        
 				function createEvent(name, songs) {
 					var eventJSON = {	"name": name,
 										"songs": songList
 									};
 				}
+                  */                       
+                                
                 
                 </script>
             </head>
@@ -136,10 +157,10 @@
 	
 						<div class="ui-hide-label">
 							<input type="text" name="eventname" id="eventname" value="" placeholder="Enter your event name here"/>
-							<button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden" aria-disabled="false">Submit</button>
-				</div>
-			</div>
-		</div>
+							<button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden" aria-disabled="false" onClick="$.mobile.changePage($('#selectSongPage'))">Next</button>
+                        </div>
+                </div>
+            </div>
 
 		</div>
 
@@ -150,7 +171,7 @@
                 });
             </script>
             <div data-role="header" data-position="fixed" data-theme="b">
-                <a data-rel="back" data-icon="arrow-l" data-theme="b">Home</a>
+                <a data-rel="back" data-icon="arrow-l" data-theme="b">Back</a>
                 <h1>Create Event</h1>
                 <a href="#" data-icon="add" data-theme="b" class="ui-btn-right" onClick="addSongs();">Add</a>
             </div>
@@ -181,7 +202,17 @@
 					</fieldset>
                 </div>
             </div>
-			</div>
-		</div>
+        </div>
+        
+        <div data-role="page" id="playingSongPage">
+            <script>
+                $('#playingSongPage').live('pageinit',function(event){
+                                          startPlaySongs();
+                                          });
+                </script>
+            <div data-role="header" data-position="fixed" data-theme="b">
+                <h1>Event</h1>
+            </div>
+        </div>
     </body>
 </html>

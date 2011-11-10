@@ -1,5 +1,11 @@
 var Jukebox = Jukebox || {};
 
+Jukebox.Event = function (eventName, songList, isItFree) {
+    this.name = eventName;
+    this.songs = songList;
+    this.isFree = isItFree;
+};
+
 /*Utilities
  *
  */
@@ -32,7 +38,7 @@ Jukebox.Utilities.prototype.addEvent = function(event, callback) {
 	//SAMPLE EVENT:
 	//event = {"name":"Tommy Nevin's Pub","songs":[{"persistentID":"7407864994792753601","title":"Also Sprach Zarathustra - Tone Poem For Large Orchestra, Op. 30: Introduction","albumTitle":"The 100 Most Essential Pieces of Classical Music","artist":"Southwest German Radio Symphony Orchestra & Ferdinand Leitner","albumArtist":"Various Artists","genre":"Classical","playbackDuration":"92.666","releaseDate":"2010-06-22 12:00:00 +0000"},{"persistentID":"17947838929277235736","title":"Always","albumTitle":"Extra's","artist":"Breaking Benjamin","albumArtist":"Breaking Benjamin","genre":"AlternRock","playbackDuration":"230.424","releaseDate":null},{"persistentID":"5486537098218507377","title":"The End","albumTitle":"The Black Parade","artist":"My Chemical Romance","albumArtist":"My Chemical Romance","genre":"Rock","playbackDuration":"112.979","releaseDate":null}]};
 
-	
+	console.log(JSON.stringify(event));
 	$.post(url,JSON.stringify(event), function(data){
 		   // This returns the event ID
 		   callback(data);
@@ -44,6 +50,53 @@ Jukebox.Utilities.prototype.requestSong = function(songId, eventId, callback) {
 	$.get(url, function(data) {
 		  callback(data);		  
 		  });
+};
+
+Jukebox.Utilities.prototype.getQueue = function(eventId, callback) {
+    var url = 'http://jukebox-shawnobanion.dotcloud.com/event/queue/' + eventId;
+    //console.log(url);
+	$.get(url, function(data) {
+		  callback(data, eventId);		  
+		  });
+};
+
+Jukebox.Player = function() {};
+Jukebox.Player.prototype.startPlayer = function(eventId) {
+    this.playFirstSong(eventId);
+};
+
+Jukebox.Player.prototype.playFirstSong = function(eventId) {
+    var jukeboxUtil = new Jukebox.Utilities();
+    var self = this;
+    jukeboxUtil.getQueue(eventId,
+                         function(queue, eventId) {
+                            if(queue.length <= 0) {
+                                console.log("No queue");
+                                setTimeout(function() {self.playFirstSong(eventId)},10000);
+                                return false;
+                            }
+                            else{
+                         console.log("There is an item");
+                                window.plugins.musicLibrary.setupMusicPlayer(
+                                    function (result){
+                                        console.log(result);
+                                        window.plugins.musicLibrary.playSongWithId(
+                                            queue[0],
+                                            function (result){
+                                                console.log(result);
+                                            },
+                                            function (error) {
+                                                console.log(error);
+                                            }
+                                        );
+                                    },
+                                function (error) {
+                                    console.log(error);
+                                }
+                            );
+                         }
+                         return true;
+                         });
 };
 
 /*DOM object
