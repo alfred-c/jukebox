@@ -155,7 +155,7 @@
 #endif
     }
     @catch (NSException *exception) {
-        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:                        [exception.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:                        [exception.description stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
     }
 }

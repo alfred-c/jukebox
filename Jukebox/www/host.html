@@ -92,7 +92,10 @@
                 
                 function publishList() {
                     var jukeboxServices = new Jukebox.Services();
-                    var event = new Jukebox.Event(document.getElementById('eventname').value, songList, false);
+                    //console.log(jukeboxServices);
+                    var event = new Jukebox.Event(document.getElementById('eventname').value, 
+                                                  songList, 
+                                                  $('#slctAllowBidding').val());
                     jukeboxServices.addEvent(event,
                         function (data) {
                             eventId = data;
@@ -124,8 +127,17 @@
 	
 						<div class="ui-hide-label">
 							<input type="text" name="eventname" id="eventname" value="" placeholder="Enter your event name here"/>
-							<button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden" aria-disabled="false" onClick="$.mobile.changePage($('#selectSongPage'))">Next</button>
+                            
+						
                         </div>
+                    <div data-role="fieldcontain">
+                        <label for="flip-b">Allow bidding:</label>
+                        <select name="slider" data-role="slider" id="slctAllowBidding">
+                            <option value="no" selected="true">No</option>
+                            <option value="yes">Yes</option>
+                        </select> 
+                    </div>
+                    	<button type="submit" data-theme="b" name="submit" value="submit-value" class="ui-btn-hidden" aria-disabled="false" onClick="$.mobile.changePage($('#selectSongPage'))">Next</button>
                 </div>
             </div>
 

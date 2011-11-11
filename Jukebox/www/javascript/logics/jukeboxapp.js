@@ -1,40 +1,48 @@
 var Jukebox = Jukebox || {};
 
-Jukebox.Event = function (eventName, songList, isItFree) {
+Jukebox.Event = function (eventName, songList, isBid) {
     this.name = eventName;
     this.songs = songList;
-    this.isFree = isItFree;
+    if(isBid == "yes"){
+        this.bidding = true;
+    }
+    else {
+        this.bidding = false;
+    }
 };
 
 /*Services
  *contains all functions and variables to contact with the server.
  */
 
-Jukebox.Services = functions () {
-    var root = 'http://jukebox-shawnobanion.dotcloud.com/';
+Jukebox.Services = function () {
+    this.root = 'http://jukebox-shawnobanion.dotcloud.com/';
+    //console.log(this.root);
 };
 
 
 Jukebox.Services.prototype.getEvents = function(callback) {
-	$.get(root + 'event/list/', function(data) {
+	$.get(this.root + 'event/list/', function(data) {
 		  callback(data);		  
 		  });
 };
 
 Jukebox.Services.prototype.getEventSongs = function(eventId, callback) {
-	$.get(root + 'event/songs/' + eventId, function(data) {
+	$.get(this.root + 'event/songs/' + eventId, function(data) {
 		  callback(data, eventId);		  
 		  });
 };
 
 Jukebox.Services.prototype.addEvent = function(event, callback) {
-	var url = root+ 'event/create/';
+    //console.log('Hello');
+    //console.log(root);
+	var url = this.root+ 'event/create/';
 	
     
 	//SAMPLE EVENT:
 	//event = {"name":"Tommy Nevin's Pub","songs":[{"persistentID":"7407864994792753601","title":"Also Sprach Zarathustra - Tone Poem For Large Orchestra, Op. 30: Introduction","albumTitle":"The 100 Most Essential Pieces of Classical Music","artist":"Southwest German Radio Symphony Orchestra & Ferdinand Leitner","albumArtist":"Various Artists","genre":"Classical","playbackDuration":"92.666","releaseDate":"2010-06-22 12:00:00 +0000"},{"persistentID":"17947838929277235736","title":"Always","albumTitle":"Extra's","artist":"Breaking Benjamin","albumArtist":"Breaking Benjamin","genre":"AlternRock","playbackDuration":"230.424","releaseDate":null},{"persistentID":"5486537098218507377","title":"The End","albumTitle":"The Black Parade","artist":"My Chemical Romance","albumArtist":"My Chemical Romance","genre":"Rock","playbackDuration":"112.979","releaseDate":null}]};
     
-	//console.log(JSON.stringify(event));
+	console.log(JSON.stringify(event));
 	$.post(url,JSON.stringify(event), function(data){
 		   // This returns the event ID
 		   callback(data);
@@ -42,14 +50,15 @@ Jukebox.Services.prototype.addEvent = function(event, callback) {
 };
 
 Jukebox.Services.prototype.requestSong = function(songId, eventId, callback) {
-	url = root + 'event/enqueuesong/' + eventId + '/' + songId;
+	var url = this.root + 'event/enqueuesong/' + eventId + '/' + songId + '/' + device.uuid;
+    console.log(url);
 	$.get(url, function(data) {
 		  callback(data);		  
 		  });
 };
 
 Jukebox.Services.prototype.getQueue = function(eventId, callback) {
-    var url = root+'event/queue/' + eventId;
+    var url = this.root+'event/queue/' + eventId;
     //console.log(url);
 	$.get(url, function(data) {
 		  callback(data, eventId);		  
@@ -78,7 +87,15 @@ Jukebox.Utilities.prototype.addSong = function (song, songList) {
 
 Jukebox.Player = function() {};
 Jukebox.Player.prototype.startPlayer = function(eventId) {
-    this.playFirstSong(eventId);
+    var self = this;
+    window.plugins.musicLibrary.setupMusicPlayer(
+                                                 function (result){
+                                                 console.log(result);
+                                                        self.playFirstSong(eventId);                                          },
+                                                 function (error) {
+                                                 console.log(error);
+                                                 }
+                                                 );
 };
 
 Jukebox.Player.prototype.playFirstSong = function(eventId) {
@@ -93,23 +110,21 @@ Jukebox.Player.prototype.playFirstSong = function(eventId) {
                             }
                             else{
                          console.log("There is an item");
-                                window.plugins.musicLibrary.setupMusicPlayer(
-                                    function (result){
-                                        console.log(result);
-                                        window.plugins.musicLibrary.playSongWithId(
-                                            queue[0],
-                                            function (result){
-                                                console.log(result);
-                                            },
-                                            function (error) {
-                                                console.log(error);
-                                            }
-                                        );
-                                    },
-                                function (error) {
-                                    console.log(error);
-                                }
-                            );
+                             //console.log(queue);
+                             //console.log(queue[0]);
+                             console.log(queue[0].song_id);
+                             
+                             window.plugins.musicLibrary.playSongWithId(
+                                                                        queue[0].song_id,
+                                                                        function (result){
+                                                                        console.log(result);
+                                                                        },
+                                                                        function (error) {
+                                                                        console.log(error);
+                                                                        }
+                                                                        );
+                              
+
                          }
                          return true;
                          });
