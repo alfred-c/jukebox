@@ -62,6 +62,7 @@
                 
                 function updateSongList(){
                     var jukeboxDOM = new Jukebox.DOM();
+               
                     if(songList.length <= 0) {
                         $('#btnPublishEvent').addClass('ui-disabled');
                         $('#btnClearSong').addClass('ui-disabled');
@@ -147,6 +148,7 @@
             <script>
                 $('#selectSongPage').live('pageinit',function(event){
                     updateSongList();
+                                          console.log('yo');
                 });
             </script>
             <div data-role="header" data-position="fixed" data-theme="b">

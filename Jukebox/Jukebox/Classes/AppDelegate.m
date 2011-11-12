@@ -47,6 +47,7 @@
 }
 
 - (void) setupMediaPlayer{
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     self.appMusicPlayer = [MPMusicPlayerController applicationMusicPlayer];
     [self.appMusicPlayer setShuffleMode:MPMusicShuffleModeOff];
     [self.appMusicPlayer setRepeatMode:MPMusicRepeatModeNone];
