@@ -16,6 +16,12 @@ MusicLibrary.prototype.playSongWithId = function (persistentId, success, fail) {
     return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "playSongWithId", [persistentId]);
 };
 
+MusicLibrary.prototype.getCurrentPlaybackTime = function (success, fail) {
+    return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "getCurrentPlaybackTime", []);
+};
+
+
+
 MusicLibrary.prototype._castMediaItems = function(pluginResult) {
     var entries = pluginResult.message;
 	var retVal = []; 

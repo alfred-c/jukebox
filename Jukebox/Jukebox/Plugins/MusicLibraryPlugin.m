@@ -184,6 +184,28 @@
     
 }
 
+
+- (void) getCurrentPlaybackTime:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options{
+    self.callbackID = [arguments pop];
+    @try {
+#if TARGET_IPHONE_SIMULATOR
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                    messageAsString:[@"Music Player is not available in iPhone Simulator" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+#else
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSString* time = [NSString stringWithFormat:@"%@", appDelegate.appMusicPlayer.currentPlaybackTime];
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                    messageAsString:[time stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+#endif
+    }
+    @catch (NSException *exception) {
+        PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:                        [exception.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
+    }
+}
+
 #pragma mark MediaPickerController Deletage Methods
 
 - (void) mediaPicker: (MPMediaPickerController *) mediaPicker
