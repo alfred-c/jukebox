@@ -21,6 +21,9 @@ MusicLibrary.prototype.getCurrentPlaybackTime = function (success, fail) {
 };
 
 
+MusicLibrary.prototype.getCurrentMediaItem = function (success, fail) {
+    return PhoneGap.exec(success, fail, "jukebox.plugin.musiclibrary", "getCurrentMediaItem", []);
+};
 
 MusicLibrary.prototype._castMediaItems = function(pluginResult) {
     var entries = pluginResult.message;
