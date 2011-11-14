@@ -123,12 +123,22 @@ Jukebox.Services.prototype.getQueue = function(eventId, callback, errorCallback)
     this.get('event/queue/' + eventId, function(data) {callback(data, eventId);}, errorCallback);
 };
 
+Jukebox.Services.prototype.getFirstSong = function(eventId, callback, errorCallback) {
+    this.get('event/dequeuesong/' + eventId, function(data) {callback(data,eventId); }, errorCallback);
+};
 
 /*Utilities
  *
  */
 
 Jukebox.Utilities = function () {};
+
+Jukebox.Utilities.prototype.findSong = function (songList, persistentID) {
+    for(var i = 0; i < songList.length; i++)
+        if(songList[i].persistentID == persistentID)
+            return songList[i];
+    return null;
+};
 
 Jukebox.Utilities.prototype.addSong = function (song, songList) {
     for(var i = 0; i < songList.length; i++)
@@ -143,49 +153,70 @@ Jukebox.Utilities.prototype.addSong = function (song, songList) {
  *contains all functions for controlling music player
  */
 
-Jukebox.Player = function() {};
+Jukebox.Player = function(songList) { this.songs = songList; };
 Jukebox.Player.prototype.startPlayer = function(eventId) {
     var self = this;
     window.plugins.musicLibrary.setupMusicPlayer(
-                                                 function (result){
-                                                 console.log(result);
-                                                        self.playFirstSong(eventId);                                          },
-                                                 function (error) {
-                                                 console.log(error);
-                                                 }
-                                                 );
+        function (result){
+            console.log(result);
+            self.playFirstSong(eventId);                                          
+        },
+        function (error) {
+            console.log(error);
+        }
+    );
 };
 
 Jukebox.Player.prototype.playFirstSong = function(eventId) {
     var jukeboxServices = new Jukebox.Services();
     var self = this;
-    jukeboxServices.getQueue(eventId,
-                         function(queue, eventId) {
-                            if(queue.length <= 0) {
-                                console.log("No queue");
-                                setTimeout(function() {self.playFirstSong(eventId)},10000);
-                                return false;
-                            }
-                            else{
-                         console.log("There is an item");
-                             //console.log(queue);
-                             //console.log(queue[0]);
-                             console.log(queue[0].song_id);
-                             
-                             window.plugins.musicLibrary.playSongWithId(
-                                                                        queue[0].song_id,
-                                                                        function (result){
-                                                                        console.log(result);
-                                                                        },
-                                                                        function (error) {
-                                                                        console.log(error);
-                                                                        }
-                                                                        );
-                              
+    jukeboxServices.getFirstSong(eventId,
+        function(song, eventId) {
+            if(song == null) {
+                console.log("No queue");
+                setTimeout(function() {self.playFirstSong(eventId);},10000);
+                return false;
+            }
+            else{
+                console.log("There is an item");
+                //console.log(queue);
+                //console.log(queue[0]);
+                console.log(song.song_id);
+                window.plugins.musicLibrary.playSongWithId(
+                    song.song_id,
+                    function (result){
+                        console.log(result);
+                        self.triggerEndofSong(song.song_id, function(timeLeft) {self.playFirstSong(eventId);}, 0.1);
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+                );
+            }
+            return true;
+    });
+};
 
-                         }
-                         return true;
-                         });
+Jukebox.Player.prototype.triggerEndofSong = function(persistentID, callback, early) {
+    var self = this;
+    var jukeboxUtil = new Jukebox.Utilities();
+    var song = jukeboxUtil.findSong(this.songs, persistentID);
+    window.plugins.musicLibrary.getCurrentPlaybackTime(
+        function(result) {
+            console.log('play duration:' + result);
+            var timeLeft = song.playbackDuration - result;
+            if(timeLeft > early) {
+                setTimeout(function() {self.triggerEndofSong(persistentID, callback,early);}, 1000);
+                return false;
+            }
+            else {
+                callback(timeLeft);
+            }
+        },
+        function(error) {
+            console.log(error);
+        }
+    );
 };
 
 /*DOM object
