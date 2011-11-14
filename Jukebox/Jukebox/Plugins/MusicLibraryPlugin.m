@@ -194,7 +194,10 @@
         [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
 #else
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        NSString* time = [NSString stringWithFormat:@"%@", appDelegate.appMusicPlayer.currentPlaybackTime];
+        //NSLog(@"%@", appDelegate.appMusicPlayer);
+        NSLog(@"%@", appDelegate.appMusicPlayer.description);
+        NSLog(@"Playback: %f", appDelegate.appMusicPlayer.currentPlaybackTime);
+        NSString* time = [NSString stringWithFormat:@"%f", appDelegate.appMusicPlayer.currentPlaybackTime];
         PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
                                                     messageAsString:[time stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
