@@ -76,6 +76,11 @@
 	function displaySongs(songs, eventId) {
 		var jukeboxDOM = new Jukebox.DOM();
 		$('#songsList').html(jukeboxDOM.renderSongListItems(songs, eventId));
+        
+		var jukeboxServices = new Jukebox.Services();
+        jukeboxServices.getQueue(eventId, function(songIds) {
+                                 $('#queueSongsList').html(jukeboxDOM.renderQueueSongListItems(songIds, songs, eventId));
+                                 });
 	}
 	
 	function clickSong(songId, eventId) {
@@ -103,7 +108,7 @@
 	   <div data-role="page" id="events">
 			<div data-role="header" data-position="inline" data-theme="b">
 				<a data-rel="back" data-icon="arrow-l" data-theme="b">Home</a>
-				<h1>Jukebox</h1>
+				<h1>Events</h1>
 			</div>
 		   <div data-role="content">
 				<div class="content-primary">	
@@ -124,66 +129,47 @@
 	   
 	   <div data-role="page" id="controls">
 		   <div data-role="header" data-position="inline" data-theme="b">
-				<a data-rel="back" data-icon="arrow-l" data-theme="b">Events</a>
-				<h1>Jukebox</h1>
+				<a href="#events" data-direction="reverse" data-icon="arrow-l" data-theme="b">Events</a>
+				<h1 class="eventTitle">Event</h1>
 			</div>
 		   <div data-role="content">
 				<div class="content-primary">	
 					<ul data-role="listview" id="songsList">
-						<!--<li>
-							<a href="#">
-								<img src="css/jquery/images/album-bb.jpg" />
-								<h3>Broken Bells</h3>
-								<p>Broken Bells</p>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<img src="css/jquery/images/album-hc.jpg" />
-								<h3>Warning</h3>
-								<p>Hot Chip</p>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<img src="css/jquery/images/album-p.jpg" />
-								<h3>Wolfgang Amadeus Phoenix</h3>
-								<p>Phoenix</p>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<img src="css/jquery/images/album-ok.jpg" />
-								<h3>Of The Blue Colour Of The Sky</h3>
-								<p>Ok Go</p>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<img src="css/jquery/images/album-ws.jpg" />
-								<h3>Elephant</h3>
-								<p>The White Stripes</p>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<img src="css/jquery/images/album-rh.jpg" />
-								<h3>Kid A</h3>
-								<p>Radiohead</p>
-							</a>
-						</li>-->
 					</ul>
 				</div>
 			</div>
 			<div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
-			<div data-role="navbar">
-				<ul>
-					<li><a href="footer-persist-a.html" class="ui-btn-active ui-state-persist">Songs</a></li>
-					<li><a href="footer-persist-b.html">Queue</a></li>
-					<li><a href="footer-persist-c.html">Now Playing</a></li>
-				</ul>
-			</div><!-- /navbar -->
-		</div>
-	</div>
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#controls" class="ui-btn-active ui-state-persist" data-transition="slideup">Songs</a></li>
+                        <li><a href="#controls-queue" data-transition="slideup">Queue</a></li>
+                        <li><a href="footer-persist-c.html" data-transition="slideup">Now Playing</a></li>
+                    </ul>
+                </div><!-- /navbar -->
+            </div>
+       </div>
+      
+      <div data-role="page" id="controls-queue">
+          <div data-role="header" data-position="inline" data-theme="b">
+              <a href="#events" data-direction="reverse" data-icon="arrow-l" data-theme="b">Events</a>
+              <h1 class="eventTitle">Event</h1>
+          </div>
+          <div data-role="content">
+              <div class="content-primary">	
+                  <ul data-role="listview" id="queueSongsList">
+                  </ul>
+              </div>
+          </div>
+          <div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
+              <div data-role="navbar">
+                  <ul>
+                      <li><a href="#controls" data-transition="slideup">Songs</a></li>
+                      <li><a class="ui-btn-active ui-state-persist" href="#controls-queue" data-transition="slideup">Queue</a></li>
+                      <li><a href="footer-persist-c.html" data-transition="slideup">Now Playing</a></li>
+                  </ul>
+              </div><!-- /navbar -->
+          </div>
+      </div>
+      
   </body>
 </html>

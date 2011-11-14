@@ -284,3 +284,27 @@ Jukebox.DOM.prototype.renderSongListItem = function(song, eventId) {
 	html += '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div></li>';
 	return html
 };
+
+Jukebox.DOM.prototype.renderQueueSongListItems = function(songIds, songs, eventId) {
+	html = '';
+	for (i in songIds) {
+        for (x in songs) {
+            if (songIds[i].song_id == songs[x].persistentID) {
+                html += this.renderQueueSongListItem(songs[x], eventId);
+                break;
+            }
+        }
+	}		
+	return html;
+};
+
+Jukebox.DOM.prototype.renderQueueSongListItem = function(song, eventId) {
+    var html = '';
+    
+    html += '<li class="ui-li ui-li-static ui-body-c"><p class="ui-li-aside ui-li-desc"><strong>' + 'Bid: $10' + '</strong></p>';
+    html += '<h3 class="ui-li-heading">' + song.title + '</h3>';
+    //html += '<p class="ui-li-desc"><strong>You\'ve been invited to a meeting at Filament Group in Boston, MA</strong></p>';
+    html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) +')</p></li>';
+    
+    return html;
+};
