@@ -58,7 +58,9 @@
 	for more details -jm */
 	function onDeviceReady()
 	{
-        window.location = "jasmine/SpecRunner.html";		
+        //if(navigator.platform == 'iPhone Simulator') {
+            window.location = "jasmine/SpecRunner.html";	
+        //}
 	}
 	
     </script>

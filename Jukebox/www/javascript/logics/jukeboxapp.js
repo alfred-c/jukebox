@@ -21,16 +21,16 @@ Jukebox.Services = function () {
 };
 
 Jukebox.Services.prototype.defaultErrorHandler = function(error, xhr) {
-    /*
-    if(typeof xhr === undefined) {
-        console.log(error);
+    console.log(error);
+};
+
+Jukebox.Services.prototype.defaultCallback = function(data) {
+    if(typeof data === 'undefined' || data == null){
+        return false;
     }
     else {
-        //console.log(xhr);
-        console.log("The server cannot be reached.");
+        return true;
     }
-     */
-    console.log(error);
 };
 
 Jukebox.Services.prototype.get = function (tail, onSuccess, onError) {
@@ -125,6 +125,10 @@ Jukebox.Services.prototype.getQueue = function(eventId, callback, errorCallback)
 
 Jukebox.Services.prototype.getFirstSong = function(eventId, callback, errorCallback) {
     this.get('event/dequeuesong/' + eventId, function(data) {callback(data,eventId); }, errorCallback);
+};
+
+Jukebox.Services.prototype.cleanDB = function(callback, errorCallback) {
+    this.get('clean/' + eventId, function(data) {callback(data); }, errorCallback);
 };
 
 /*Utilities
