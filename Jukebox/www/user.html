@@ -83,7 +83,7 @@
                                  });
 	}
 	
-	function clickSong(songId, eventId) {
+	function submitSongRequest(songId, eventId) {
 		var jukeboxServices = new Jukebox.Services();
 		jukeboxServices.requestSong(songId, eventId, songRequestSuccess);
 	}
@@ -130,7 +130,7 @@
 	   <div data-role="page" id="controls">
 		   <div data-role="header" data-position="inline" data-theme="b">
 				<a href="#events" data-direction="reverse" data-icon="arrow-l" data-theme="b">Events</a>
-				<h1 class="eventTitle">Event</h1>
+				<h1 class="eventTitle">Songs</h1>
 			</div>
 		   <div data-role="content">
 				<div class="content-primary">	
@@ -152,7 +152,7 @@
       <div data-role="page" id="controls-queue">
           <div data-role="header" data-position="inline" data-theme="b">
               <a href="#events" data-direction="reverse" data-icon="arrow-l" data-theme="b">Events</a>
-              <h1 class="eventTitle">Event</h1>
+              <h1 class="eventTitle">Queue</h1>
           </div>
           <div data-role="content">
               <div class="content-primary">	
@@ -169,6 +169,20 @@
                       <li><a href="footer-persist-c.html" data-transition="slideup">Now Playing</a></li>
                   </ul>
               </div><!-- /navbar -->
+          </div>
+      </div>
+      
+      <div data-role="page" id="request-song">
+          <div data-role="header" data-position="inline" data-theme="b">
+              <a data-rel="back" data-icon="arrow-l" data-theme="b">Back</a>
+              <h1 class="eventTitle">Request Song</h1>
+          </div>
+          <div data-role="content">
+              <div class="content-primary">	
+                  <label for="tel" class="ui-input-text">Please enter a bid in $1 increments:</label>
+                  <input type="tel" name="tel" id="tel" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-focus" />
+                  <button id="submit-song-request" type="submit" data-theme="b">Submit Request</button>
+              </div>
           </div>
       </div>
       
