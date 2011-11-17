@@ -15,7 +15,8 @@ Jukebox.Event = function (eventName, songList, isBid) {
  *contains all functions and variables to contact with the server.
  */
 
-Jukebox.Services = function () {
+Jukebox.Services = function (isTesting) {
+    this.test = isTesting || false;
     this.root = 'http://jukebox-shawnobanion.dotcloud.com/';
     //console.log(this.root);
 };
@@ -36,6 +37,7 @@ Jukebox.Services.prototype.defaultCallback = function(data) {
 Jukebox.Services.prototype.get = function (tail, onSuccess, onError) {
     var errorCallback = onError || this.defaultErrorHandler;
     var url = this.root + tail;
+    if(this.isTesting) { url = url + 'test=True'; }
     console.log(url);
     var jqxhr = $.get(url, function(data) {
                       if(data == "404") {
@@ -51,6 +53,7 @@ Jukebox.Services.prototype.get = function (tail, onSuccess, onError) {
 Jukebox.Services.prototype.post = function (tail, postdata, onSuccess, onError) {
     var errorCallback = onError || this.defaultErrorHandler;
     var url = this.root + tail;
+    if(this.isTesting) { url = url + 'test=True'; }
     console.log(url);
     var jqxhr = $.post(url, postdata, function(data) {
                       if(data == "404") {
