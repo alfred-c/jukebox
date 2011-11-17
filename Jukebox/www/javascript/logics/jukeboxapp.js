@@ -305,7 +305,7 @@ Jukebox.DOM.prototype.renderQueueSongListItems = function(songIds, songs, eventI
 Jukebox.DOM.prototype.renderQueueSongListItem = function(song, eventId) {
     var html = '';
     
-    html += '<li class="ui-li ui-li-static ui-body-c"><p class="ui-li-aside ui-li-desc"><strong>' + 'Bid: $10' + '</strong></p>';
+    html += '<li class="ui-li ui-li-static ui-body-c"><p class="ui-li-aside ui-li-desc"><strong>' + 'Bid: $0' + '</strong></p>';
     html += '<h3 class="ui-li-heading">' + song.title + '</h3>';
     //html += '<p class="ui-li-desc"><strong>You\'ve been invited to a meeting at Filament Group in Boston, MA</strong></p>';
     html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) +')</p></li>';
