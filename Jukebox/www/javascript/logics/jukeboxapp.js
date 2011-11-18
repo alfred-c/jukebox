@@ -25,19 +25,11 @@ Jukebox.Services.prototype.defaultErrorHandler = function(error, xhr) {
     console.log(error);
 };
 
-Jukebox.Services.prototype.defaultCallback = function(data) {
-    if(typeof data === 'undefined' || data == null){
-        return false;
-    }
-    else {
-        return true;
-    }
-};
-
 Jukebox.Services.prototype.get = function (tail, onSuccess, onError) {
     var errorCallback = onError || this.defaultErrorHandler;
     var url = this.root + tail;
-    if(this.isTesting) { url = url + 'test=True'; }
+    
+    if(this.test) { url = url + '?test=True'; }
     console.log(url);
     var jqxhr = $.get(url, function(data) {
                       if(data == "404") {
@@ -47,13 +39,14 @@ Jukebox.Services.prototype.get = function (tail, onSuccess, onError) {
                         onSuccess(data);
                       }
                       })
-    .error(function() { errorCallback("The server cannot be reached"); });
+    .error(function() { errorCallback("The server cannot be reached."); });
 };
 
 Jukebox.Services.prototype.post = function (tail, postdata, onSuccess, onError) {
     var errorCallback = onError || this.defaultErrorHandler;
     var url = this.root + tail;
-    if(this.isTesting) { url = url + 'test=True'; }
+    console.log(this.test);
+    if(this.test) { url = url + '?test=True'; }
     console.log(url);
     var jqxhr = $.post(url, postdata, function(data) {
                       if(data == "404") {
@@ -160,7 +153,18 @@ Jukebox.Utilities.prototype.addSong = function (song, songList) {
  *contains all functions for controlling music player
  */
 
-Jukebox.Player = function(songList) { this.songs = songList; };
+Jukebox.Player = function(songList, onDurationChange, onSongChange) { 
+    this.songs = songList; 
+    this.timerCallback = onDurationChange || this.defaultCallback;
+    this.songChangeCallback = onSongChange || this.defaultCallback;
+    //console.log('timer: '+ this.timerCallback);
+    //console.log('change: '+ this.songChangeCallback);
+};
+
+Jukebox.Player.prototype.defaultCallback = function(data) {
+    console.log(data);
+};
+
 Jukebox.Player.prototype.startPlayer = function(eventId) {
     var self = this;
     window.plugins.musicLibrary.setupMusicPlayer(
@@ -192,6 +196,8 @@ Jukebox.Player.prototype.playFirstSong = function(eventId) {
                 window.plugins.musicLibrary.playSongWithId(
                     song.song_id,
                     function (result){
+                        self.currentSongId = song.song_id;
+                        self.songChangeCallback(self.currentSongId);
                         console.log(result);
                         self.triggerEndofSong(song.song_id, function(timeLeft) {self.playFirstSong(eventId);}, 0.1);
                     },
@@ -210,9 +216,10 @@ Jukebox.Player.prototype.triggerEndofSong = function(persistentID, callback, ear
     var song = jukeboxUtil.findSong(this.songs, persistentID);
     window.plugins.musicLibrary.getCurrentPlaybackTime(
         function(result) {
-            console.log('play duration:' + result);
+            //console.log('play duration:' + result);
             var timeLeft = song.playbackDuration - result;
             if(timeLeft > early) {
+                self.timerCallback(result);
                 setTimeout(function() {self.triggerEndofSong(persistentID, callback,early);}, 1000);
                 return false;
             }
@@ -316,3 +323,4 @@ Jukebox.DOM.prototype.renderQueueSongListItem = function(song, eventId) {
     
     return html;
 };
+

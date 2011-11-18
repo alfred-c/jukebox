@@ -56,7 +56,7 @@
 
 -(NSArray *) jsonArrayFromMediaCollection:(MPMediaItemCollection *) collection{
     NSMutableArray *itemArray = [NSMutableArray arrayWithCapacity:collection.count];
-    NSLog(@"%@", [[collection representativeItem] valueForProperty:MPMediaItemPropertyPersistentID]);
+    //NSLog(@"%@", [[collection representativeItem] valueForProperty:MPMediaItemPropertyPersistentID]);
     for (MPMediaItem *item in collection.items) {
         [itemArray addObject:[self jsonStringFromMediaItem:item]];
     }
@@ -137,12 +137,12 @@
         MPMediaPropertyPredicate * predicate = 
             [MPMediaPropertyPredicate predicateWithValue:numberID 
                                              forProperty:MPMediaItemPropertyPersistentID];
-        [numberID release];
+        //[numberID release];
         MPMediaQuery *query = [[MPMediaQuery alloc] init];
         [query addFilterPredicate:predicate];
-        NSLog(@"%@",numberID);
-        NSLog(@"%@",[query items]);
-        NSLog(@"%@",[query collections]);
+        //NSLog(@"%@",numberID);
+        //NSLog(@"%@",[query items]);
+        //NSLog(@"%@",[query collections]);
         //set up the queue with the song
         [appMusicPlayer setQueueWithQuery:query];
         
@@ -196,7 +196,7 @@
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         //NSLog(@"%@", appDelegate.appMusicPlayer);
         //NSLog(@"%@", appDelegate.appMusicPlayer.description);
-        NSLog(@"Playback: %f", appDelegate.appMusicPlayer.currentPlaybackTime);
+        //NSLog(@"Playback: %f", appDelegate.appMusicPlayer.currentPlaybackTime);
         NSString* time = [NSString stringWithFormat:@"%f", appDelegate.appMusicPlayer.currentPlaybackTime];
         while ([time isEqualToString:@"nan"]) {
             [NSThread sleepForTimeInterval:1];

@@ -94,7 +94,7 @@
                 function publishList() {
                     var jukeboxServices = new Jukebox.Services();
                     //console.log(jukeboxServices);
-                    var event = new Jukebox.Event(document.getElementById('eventname').value, 
+                    event = new Jukebox.Event(document.getElementById('eventname').value, 
                                                   songList, 
                                                   $('#slctAllowBidding').val());
                     jukeboxServices.addEvent(event,
@@ -108,12 +108,23 @@
                 }
                 
                 function startPlaySongs() {
-                    var player = new Jukebox.Player(songList);
+                    var player = new Jukebox.Player(songList, 
+                        function (duration){
+                            var jukeboxDOM = new Jukebox.DOM();
+                            $('#currentPlayDuration').html(jukeboxDOM.formatTimeInterval(duration));
+                        }, 
+                        function (curSongId){
+                                                    
+                                                    var jukeboxUtil = new Jukebox.Utilities();
+                                                    var song = jukeboxUtil.findSong(songList, curSongId);
+                                                    $('#songName').html(song.title);
+                        });
                     player.startPlayer(eventId);
-                }
-                
+                    $('#eventName').html(event.name);
+                }                
                 var songList = [];
-                var eventId = "";                  
+                var eventId = "";  
+                var event;
                 </script>
             </head>
     <body onload="onBodyLoad()">        
@@ -148,7 +159,6 @@
             <script>
                 $('#selectSongPage').live('pageinit',function(event){
                     updateSongList();
-                                          console.log('yo');
                 });
             </script>
             <div data-role="header" data-position="fixed" data-theme="b">
@@ -193,6 +203,11 @@
                 </script>
             <div data-role="header" data-position="fixed" data-theme="b">
                 <h1>Event</h1>
+            </div>
+            <div data-role="content" style="text-align:center;">
+                <h2 id="eventName"></h2>
+                <h3 id="songName">No Music</h3>
+                <h1 id="currentPlayDuration">00:00</h1>
             </div>
         </div>
     </body>
