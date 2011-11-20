@@ -199,8 +199,9 @@
         //NSLog(@"Playback: %f", appDelegate.appMusicPlayer.currentPlaybackTime);
         NSString* time = [NSString stringWithFormat:@"%f", appDelegate.appMusicPlayer.currentPlaybackTime];
         while ([time isEqualToString:@"nan"]) {
-            [NSThread sleepForTimeInterval:1];
+            [NSThread sleepForTimeInterval:0.1];
             time = [NSString stringWithFormat:@"%f", appDelegate.appMusicPlayer.currentPlaybackTime];
+            NSLog(@"%@",time);
         }
         PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
                                                     messageAsString:[time stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];

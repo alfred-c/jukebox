@@ -86,6 +86,8 @@
 	function submitSongRequest(songId, eventId) {
 		var jukeboxServices = new Jukebox.Services();
 		jukeboxServices.requestSong(songId, eventId, songRequestSuccess);
+        $('#submit-song-request').unbind('click');
+        $('#bid-amount').value = 0;
 	}
 	
 	function songRequestSuccess(data) {
@@ -180,7 +182,7 @@
           <div data-role="content">
               <div class="content-primary">	
                   <label for="tel" class="ui-input-text">Please enter a bid in $1 increments:</label>
-                  <input type="tel" name="tel" id="tel" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-focus" />
+                  <input type="tel" name="tel" id="tel" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-focus" id="bid-amount" />
                   <button id="submit-song-request" type="submit" data-theme="b">Submit Request</button>
               </div>
           </div>

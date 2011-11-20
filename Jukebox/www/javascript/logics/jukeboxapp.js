@@ -185,7 +185,7 @@ Jukebox.Player.prototype.playFirstSong = function(eventId) {
         function(song, eventId) {
             if(song == null) {
                 console.log("No queue");
-                setTimeout(function() {self.playFirstSong(eventId);},10000);
+                setTimeout(function() {self.playFirstSong(eventId);},5000);
                 return false;
             }
             else{
@@ -199,7 +199,7 @@ Jukebox.Player.prototype.playFirstSong = function(eventId) {
                         self.currentSongId = song.song_id;
                         self.songChangeCallback(self.currentSongId);
                         console.log(result);
-                        self.triggerEndofSong(song.song_id, function(timeLeft) {self.playFirstSong(eventId);}, 0.1);
+                        self.triggerEndofSong(song.song_id, function(timeLeft) {self.playFirstSong(eventId);}, 0.3);
                     },
                     function (error) {
                         console.log(error);
@@ -218,12 +218,14 @@ Jukebox.Player.prototype.triggerEndofSong = function(persistentID, callback, ear
         function(result) {
             //console.log('play duration:' + result);
             var timeLeft = song.playbackDuration - result;
+                                                      // console.log(timeLeft);
             if(timeLeft > early) {
-                self.timerCallback(result);
-                setTimeout(function() {self.triggerEndofSong(persistentID, callback,early);}, 1000);
+                self.timerCallback(result,timeLeft);
+                setTimeout(function() {self.triggerEndofSong(persistentID, callback,early);}, 100);
                 return false;
             }
             else {
+                                                       console.log('end song');
                 callback(timeLeft);
             }
         },
@@ -292,7 +294,7 @@ Jukebox.DOM.prototype.renderSongListItem = function(song, eventId) {
     var html = '';
 	html += '<li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
     
-    html += '<a href="#request-song" onclick="$(\'#submit-song-request\').click(function(){ submitSongRequest(\'' + song.persistentID + '\', \'' + eventId + '\'); });" class="ui-link-inherit">';
+    html += '<a href="#request-song" onclick="console.log(\'before\'); $(\'#submit-song-request\').bind(\'click\', function(){ submitSongRequest(\'' + song.persistentID + '\', \'' + eventId + '\'); }); console.log(\'after\');" class="ui-link-inherit">';
     
 	html += '<h3 class="ui-li-heading">' + song.title + '</h3>';
 	html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) + ')</p>';

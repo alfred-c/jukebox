@@ -109,9 +109,9 @@
                 
                 function startPlaySongs() {
                     var player = new Jukebox.Player(songList, 
-                        function (duration){
+                        function (duration, timeLeft){
                             var jukeboxDOM = new Jukebox.DOM();
-                            $('#currentPlayDuration').html(jukeboxDOM.formatTimeInterval(duration));
+                            $('#currentPlayDuration').html(jukeboxDOM.formatTimeInterval(timeLeft));
                         }, 
                         function (curSongId){
                                                     
