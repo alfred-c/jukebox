@@ -11,6 +11,11 @@ Jukebox.Event = function (eventName, songList, isBid) {
     }
 };
 
+Jukebox.Bid = function(bid, uid) {
+    this.currentBid = bid;
+    this.userId = uid;
+};
+
 /*Services
  *contains all functions and variables to contact with the server.
  */
@@ -96,7 +101,7 @@ Jukebox.Services.prototype.addEvent = function(event, callback, errorCallback) {
     this.post('event/create/', JSON.stringify(event), function(data) {callback(data);}, errorCallback); 
 };
 
-Jukebox.Services.prototype.requestSong = function(songId, eventId, callback, errorCallback) {
+Jukebox.Services.prototype.requestSong = function(songId, eventId, bid, callback, errorCallback) {
     /*
 	var url = this.root + 'event/enqueuesong/' + eventId + '/' + songId + '/' + device.uuid;
     //console.log(url);
@@ -104,7 +109,7 @@ Jukebox.Services.prototype.requestSong = function(songId, eventId, callback, err
 		  callback(data);		  
 		  });
      */
-    this.get('event/enqueuesong/' + eventId + '/' + songId + '/' + device.uuid, 
+    this.get('event/enqueuesong/' + eventId + '/' + songId + '/' + device.uuid + '/' + bid, 
              function(data) {callback(data);},
              errorCallback);
 };
