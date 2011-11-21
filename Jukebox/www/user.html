@@ -64,11 +64,14 @@
 	}
 
 	function displayEvents(events) {
+        eventList = events;
 		var jukeboxDOM = new Jukebox.DOM();
 		$('#eventsList').html(jukeboxDOM.renderEventListItems(events));
 	}
 	
 	function getSongs(eventId) {
+        var jukeboxUtil = new Jukebox.Utilities();
+        event = jukeboxUtil.findEvent(eventList, eventId);
 		var jukeboxServices = new Jukebox.Services();
 		jukeboxServices.getEventSongs(eventId, displaySongs);
 	}
@@ -76,25 +79,72 @@
 	function displaySongs(songs, eventId) {
 		var jukeboxDOM = new Jukebox.DOM();
 		$('#songsList').html(jukeboxDOM.renderSongListItems(songs, eventId));
-        
-		var jukeboxServices = new Jukebox.Services();
-        jukeboxServices.getQueue(eventId, function(songIds) {
-                                 $('#queueSongsList').html(jukeboxDOM.renderQueueSongListItems(songIds, songs, eventId));
-                                 });
+        songList = songs;
 	}
+        function loadAndShowQueue(song) {
+            var jukeboxDOM = new Jukebox.DOM();
+            var jukeboxServices = new Jukebox.Services();
+            jukeboxServices.getQueue(event.id, 
+                function(songIds) {
+                                     console.log('1');
+                    if(songIds.length == 0) {
+                        $('#queue-content').hide();
+                        $('#empty-queue-content').show();
+                    }
+                    else {
+                        $('#queue-content').show();
+                        $('#empty-queue-content').hide();
+                                     console.log('1.1');
+                        $('#queueSongsList').html(jukeboxDOM.renderQueueSongListItems(songIds, songList, event.id));
+                                     console.log('1.2');
+                                     }
+                                     console.log('2');
+                    if(song == null){
+                        $('#request-content').hide();
+                    }
+                    else{
+                        $('#request-content').show();   
+                        $('#request-song-detail').html(jukeboxDOM.renderQueueSongListItem(song, event.id));
+                                     }
+                                     console.log('3');
+                                     $.mobile.changePage($('#controls-queue'));
+                                     
+                                     console.log('4');
+                });
+            
+        }
 	
+        function requestingSong(songId, eventId) {
+            if(event.bidding == "bid") {
+                var jukeboxUtil = new Jukebox.Utilities();
+                $('#submit-song-request').bind('click', function(){ submitSongRequest(songId, eventId);});
+                loadAndShowQueue(jukeboxUtil.findSong(songList, songId));
+                
+            }
+            else if(event.bidding == "free") {
+                submitSongRequest(songId, eventId);
+            }
+ 
+        }
+        
 	function submitSongRequest(songId, eventId) {
 		var jukeboxServices = new Jukebox.Services();
         var bid = document.getElementById('bid-amount').value;
+        if(bid == null || bid == "") {bid = 0;}
 		jukeboxServices.requestSong(songId, eventId, bid, songRequestSuccess);
         $('#submit-song-request').unbind('click');
         document.getElementById('bid-amount').value = "";
+
 	}
 	
 	function songRequestSuccess(data) {
+                loadAndShowQueue(null);
 		alert("You've successfully requested this song!");
 	}
-    
+               var eventList = [];
+               var event = null;
+        var songList = [];
+        var selectedSongList = [];
     </script>
   </head>
   <body onload="onBodyLoad()">
@@ -144,9 +194,9 @@
 			<div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#controls" class="ui-btn-active ui-state-persist" data-transition="slideup">Songs</a></li>
-                        <li><a href="#controls-queue" data-transition="slideup">Queue</a></li>
-                        <li><a href="footer-persist-c.html" data-transition="slideup">Now Playing</a></li>
+                        <li><a href="#controls" class="ui-btn-active ui-state-persist" >Songs</a></li>
+                        <li><a href="#" onclick="loadAndShowQueue(null)" >Queue</a></li>
+                        <li><a href="footer-persist-c.html" >Now Playing</a></li>
                     </ul>
                 </div><!-- /navbar -->
             </div>
@@ -159,22 +209,44 @@
           </div>
           <div data-role="content">
               <div class="content-primary">	
+                <div id="request-content">
+                    <ul>
+                  <li data-role="list-divider" role="heading" class="ui-li ui-li-divider">Request Song</li>
+                        </ul>
+                    <fieldset class="ui-grid-a">
+						<div class="ui-block-a" id="request-song-form">
+                            <label for="tel" class="ui-input-text">Max Bid</label>
+                            <input type="tel" name="number" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-focus" id="bid-amount" />
+                        </div>
+						<div class="ui-block-b" id="request-song-detail">
+                            
+                        </div>
+					</fieldset>
+                    <button id="submit-song-request" type="submit" data-theme="b">Confirm</button>
+                </div>
+                <div id="queue-content">
+                    <ul>
+                  <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-d">Queue</li>
+                        </ul>
                   <ul data-role="listview" id="queueSongsList">
-										"The play queue is currently empty. Request songs and then check the queue!"
                   </ul>
+                </div>
+                <div id="empty-queue-content">
+                    The play queue is currently empty.
+                </div>
               </div>
           </div>
           <div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
               <div data-role="navbar">
                   <ul>
-                      <li><a href="#controls" data-transition="slideup">Songs</a></li>
-                      <li><a class="ui-btn-active ui-state-persist" href="#controls-queue" data-transition="slideup">Queue</a></li>
-                      <li><a href="footer-persist-c.html" data-transition="slideup">Now Playing</a></li>
+                      <li><a href="#controls" >Songs</a></li>
+                      <li><a class="ui-btn-active ui-state-persist" href="#" onclick="loadAndShowQueue(null)" >Queue</a></li>
+                      <li><a href="footer-persist-c.html" >Now Playing</a></li>
                   </ul>
               </div><!-- /navbar -->
           </div>
       </div>
-      
+      <!-- move to queue page
       <div data-role="page" id="request-song">
           <div data-role="header" data-position="inline" data-theme="b">
               <a data-rel="back" data-icon="arrow-l" data-theme="b">Back</a>
@@ -188,6 +260,6 @@
               </div>
           </div>
       </div>
-      
+      -->
   </body>
 </html>

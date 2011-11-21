@@ -102,7 +102,7 @@
                             eventId = data;
                             console.log(data);
                             if(eventId != "") {
-                                $.mobile.changePage($('#playingSongPage'))
+                                             $.mobile.changePage($('#playingSongPage'));
                             }
                     });
                 }
@@ -166,7 +166,17 @@
                 <h1>Create Event</h1>
                 <a href="#" data-icon="add" data-theme="b" class="ui-btn-right" onClick="addSongs();">Add</a>
             </div>
-
+            <div>
+                <fieldset class="ui-grid-a">
+                    <div class="ui-block-a">                    
+                        <a href="#" data-role="button" data-theme="c" id="btnClearSong" onClick="songList=[];updateSongList();">Clear</a>
+                    </div>
+                    <div class="ui-block-b">
+                        <a href="#" data-role="button" data-theme="b" id="btnPublishEvent" onClick="publishList();">Publish</a>
+                        
+                    </div>
+                </fieldset>
+            </div>
 			<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-d">Add Songs</li>
 			<p>
 			<div data-role="content">
@@ -181,17 +191,7 @@
                      to add songs
                 </div>
                 <br />
-                <div>
-                    <fieldset class="ui-grid-a">
-						<div class="ui-block-a">                    
-                            <a href="#" data-role="button" data-theme="c" id="btnClearSong" onClick="songList=[];updateSongList();">Clear</a>
-                        </div>
-						<div class="ui-block-b">
-                            <a href="#" data-role="button" data-theme="b" id="btnPublishEvent" onClick="publishList();">Publish</a>
-
-                        </div>
-					</fieldset>
-                </div>
+                
             </div>
         </div>
         

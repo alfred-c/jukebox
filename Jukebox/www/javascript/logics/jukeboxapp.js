@@ -4,10 +4,10 @@ Jukebox.Event = function (eventName, songList, isBid) {
     this.name = eventName;
     this.songs = songList;
     if(isBid == "yes"){
-        this.bidding = true;
+        this.bidding = "bid";
     }
     else {
-        this.bidding = false;
+        this.bidding = "free";
     }
 };
 
@@ -121,6 +121,7 @@ Jukebox.Services.prototype.getQueue = function(eventId, callback, errorCallback)
 		  callback(data, eventId);		  
 		  });
      */
+    console.log(eventId);
     this.get('event/queue/' + eventId, function(data) {callback(data, eventId);}, errorCallback);
 };
 
@@ -144,6 +145,14 @@ Jukebox.Utilities.prototype.findSong = function (songList, persistentID) {
             return songList[i];
     return null;
 };
+
+Jukebox.Utilities.prototype.findEvent = function (eventList, eventId) {
+    for(var i = 0; i < eventList.length; i++)
+        if(eventList[i].id == eventId)
+            return eventList[i];
+    return null;
+};
+
 
 Jukebox.Utilities.prototype.addSong = function (song, songList) {
     for(var i = 0; i < songList.length; i++)
@@ -299,7 +308,7 @@ Jukebox.DOM.prototype.renderSongListItem = function(song, eventId) {
     var html = '';
 	html += '<li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
     
-    html += '<a href="#request-song" onclick="console.log(\'before\'); $(\'#submit-song-request\').bind(\'click\', function(){ submitSongRequest(\'' + song.persistentID + '\', \'' + eventId + '\'); }); console.log(\'after\');" class="ui-link-inherit">';
+    html += '<a onclick="requestingSong(\'' + song.persistentID + '\', \'' + eventId + '\');" class="ui-link-inherit">';
     
 	html += '<h3 class="ui-li-heading">' + song.title + '</h3>';
 	html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) + ')</p>';
@@ -308,6 +317,8 @@ Jukebox.DOM.prototype.renderSongListItem = function(song, eventId) {
 };
 
 Jukebox.DOM.prototype.renderQueueSongListItems = function(songIds, songs, eventId) {
+    console.log(songs);
+    
 	html = '';
 	for (i in songIds) {
         for (x in songs) {
