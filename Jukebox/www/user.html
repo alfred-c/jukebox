@@ -68,7 +68,7 @@
 		$('#eventsList').html(jukeboxDOM.renderEventListItems(events));
 	}
 	
-	function getSongs(eventId) {
+	function setupEventPage(eventId) {
 		var jukeboxServices = new Jukebox.Services();
 		jukeboxServices.getEventSongs(eventId, displaySongs);
 	}
@@ -79,20 +79,20 @@
         
 		var jukeboxServices = new Jukebox.Services();
         jukeboxServices.getQueue(eventId, function(songIds) {
-                                 $('#queueSongsList').html(jukeboxDOM.renderQueueSongListItems(songIds, songs, eventId));
+                                 $('.queueSongsList').html(jukeboxDOM.renderQueueSongListItems(songIds, songs, eventId));
                                  });
 	}
 	
 	function submitSongRequest(songId, eventId) {
 		var jukeboxServices = new Jukebox.Services();
         var bid = document.getElementById('bid-amount').value;
-		jukeboxServices.requestSong(songId, eventId, bid, songRequestSuccess);
+		jukeboxServices.requestSong(songId, eventId, bid, function(data){
+                                    // Re-render the event pages so that the queue is updated
+                                    setupEventPage(eventId);
+                                    alert("You successfully requested this song!");
+                                    });
         $('#submit-song-request').unbind('click');
         document.getElementById('bid-amount').value = "";
-	}
-	
-	function songRequestSuccess(data) {
-		alert("You've successfully requested this song!");
 	}
     
     </script>
@@ -108,7 +108,7 @@
 	</ol>
        !-->
 	   
-	   <div data-role="page" id="events">
+	   <div data-role="page" id="events" data-theme="b">
 			<div data-role="header" data-position="inline" data-theme="b">
 				<a href="index.html" data-direction="reverse" data-icon="arrow-l" data-theme="b">Home</a>
 				<h1>Events</h1>
@@ -130,10 +130,10 @@
 		</div>
 
 	   
-	   <div data-role="page" id="controls">
+	   <div data-role="page" id="controls" data-theme="b">
 		   <div data-role="header" data-position="inline" data-theme="b">
 				<a href="#events" data-direction="reverse" data-icon="arrow-l" data-theme="b">Events</a>
-				<h1 class="eventTitle">Songs</h1>
+				<h1 class="eventTitle">Event Songs</h1>
 			</div>
 		   <div data-role="content">
 				<div class="content-primary">	
@@ -146,20 +146,19 @@
                     <ul>
                         <li><a href="#controls" class="ui-btn-active ui-state-persist" data-transition="slideup">Songs</a></li>
                         <li><a href="#controls-queue" data-transition="slideup">Queue</a></li>
-                        <li><a href="footer-persist-c.html" data-transition="slideup">Now Playing</a></li>
                     </ul>
                 </div><!-- /navbar -->
             </div>
        </div>
       
-      <div data-role="page" id="controls-queue">
+      <div data-role="page" id="controls-queue" data-theme="b">
           <div data-role="header" data-position="inline" data-theme="b">
               <a href="#events" data-direction="reverse" data-icon="arrow-l" data-theme="b">Events</a>
-              <h1 class="eventTitle">Queue</h1>
+              <h1 class="eventTitle">Event Queue</h1>
           </div>
           <div data-role="content">
               <div class="content-primary">	
-                  <ul data-role="listview" id="queueSongsList">
+                  <ul data-role="listview" class="queueSongsList">
 										"The play queue is currently empty. Request songs and then check the queue!"
                   </ul>
               </div>
@@ -169,22 +168,27 @@
                   <ul>
                       <li><a href="#controls" data-transition="slideup">Songs</a></li>
                       <li><a class="ui-btn-active ui-state-persist" href="#controls-queue" data-transition="slideup">Queue</a></li>
-                      <li><a href="footer-persist-c.html" data-transition="slideup">Now Playing</a></li>
                   </ul>
               </div><!-- /navbar -->
           </div>
       </div>
       
-      <div data-role="page" id="request-song">
+      <div data-role="page" id="request-song" data-theme="b">
           <div data-role="header" data-position="inline" data-theme="b">
               <a data-rel="back" data-icon="arrow-l" data-theme="b">Back</a>
               <h1 class="eventTitle">Request Song</h1>
           </div>
           <div data-role="content">
               <div class="content-primary">	
-                  <label for="tel" class="ui-input-text">Please enter a bid in $1 increments:</label>
+                
+                  <label for="tel" class="ui-input-text">Enter your bid in $1 increments:</label>
                   <input type="tel" name="tel" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-focus" id="bid-amount" />
+                 
                   <button id="submit-song-request" type="submit" data-theme="b">Submit Request</button>
+  
+                  <br/><br/>
+                  
+                  <ul data-role="listview" class="queueSongsList"></ul>
               </div>
           </div>
       </div>

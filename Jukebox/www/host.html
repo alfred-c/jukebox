@@ -128,7 +128,7 @@
                 </script>
             </head>
     <body onload="onBodyLoad()">        
-		<div data-role="page" id="createEventPage">
+		<div data-role="page" id="createEventPage" data-theme="b">
 			<div data-role="header" data-position="fixed" data-theme="b">
             <a data-rel="back" data-icon="arrow-l" data-theme="b">Home</a>
                 <h1>Create Event</h1>
@@ -155,7 +155,7 @@
 
 		</div>
 
-        <div data-role="page" id="selectSongPage">
+        <div data-role="page" id="selectSongPage" data-theme="b">
             <script>
                 $('#selectSongPage').live('pageinit',function(event){
                     updateSongList();
@@ -195,7 +195,7 @@
             </div>
         </div>
         
-        <div data-role="page" id="playingSongPage">
+        <div data-role="page" id="playingSongPage" data-theme="b">
             <script>
                 $('#playingSongPage').live('pageinit',function(event){
                                           startPlaySongs();
