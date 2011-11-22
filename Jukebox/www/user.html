@@ -64,16 +64,23 @@
 	}
 
 	function displayEvents(events) {
+        eventList = events;
 		var jukeboxDOM = new Jukebox.DOM();
 		$('#eventsList').html(jukeboxDOM.renderEventListItems(events));
 	}
 	
 	function setupEventPage(eventId) {
+        
+        var jukeboxUtil = new Jukebox.Utilities();
+        event = jukeboxUtil.findEvent(eventList, eventId);
+        //console.log(1);
 		var jukeboxServices = new Jukebox.Services();
 		jukeboxServices.getEventSongs(eventId, displaySongs);
+        //console.log(2);
 	}
 	
 	function displaySongs(songs, eventId) {
+        songList = songs;
 		var jukeboxDOM = new Jukebox.DOM();
 		$('#songsList').html(jukeboxDOM.renderSongListItems(songs, eventId));
         
@@ -82,19 +89,42 @@
                                  $('.queueSongsList').html(jukeboxDOM.renderQueueSongListItems(songIds, songs, eventId));
                                  });
 	}
+        
+    function requestingSong(songId, eventId) {
+        if(event.bidding == "bid") {
+            var jukeboxDOM = new Jukebox.DOM();
+            var jukeboxUtil = new Jukebox.Utilities();
+            $('#submit-song-request').bind('click', function(){ submitSongRequest(songId, eventId);});
+            var song = jukeboxUtil.findSong(songList, songId);
+            $('.requestSong').html(jukeboxDOM.renderQueueSongListItem(song, null, eventId));
+            $.mobile.changePage($('#request-song'));
+        }
+        else if(event.bidding == "free") {
+            submitSongRequest(songId, eventId);
+            //$.mobile.changePage($('#controls-queue'));
+        }
+    }
 	
 	function submitSongRequest(songId, eventId) {
 		var jukeboxServices = new Jukebox.Services();
         var bid = document.getElementById('bid-amount').value;
+        var mobile = $.mobile;
+        var queuePage = $('#controls-queue');
+        if(bid == null || bid == "") {bid = 0;}
 		jukeboxServices.requestSong(songId, eventId, bid, function(data){
                                     // Re-render the event pages so that the queue is updated
                                     setupEventPage(eventId);
                                     alert("You successfully requested this song!");
+                                    mobile.changePage(queuePage);
                                     });
         $('#submit-song-request').unbind('click');
         document.getElementById('bid-amount').value = "";
+        //$.mobile.changePage($('#controls-queue'));
+        //console.log(2);
 	}
-    
+    var event = null;
+    var eventList = [];
+    var songList = [];
     </script>
   </head>
   <body onload="onBodyLoad()">
@@ -152,6 +182,12 @@
        </div>
       
       <div data-role="page" id="controls-queue" data-theme="b">
+          <script>
+              $('#controls-queue').live('pageinit',function(){
+                                         setupEventPage(event.id);
+                                         });
+              </script>
+
           <div data-role="header" data-position="inline" data-theme="b">
               <a href="#events" data-direction="reverse" data-icon="arrow-l" data-theme="b">Events</a>
               <h1 class="eventTitle">Event Queue</h1>
@@ -180,14 +216,15 @@
           </div>
           <div data-role="content">
               <div class="content-primary">	
-                
                   <label for="tel" class="ui-input-text">Enter your bid in $1 increments:</label>
+                  <br />
+                  <ul data-role="listview" class="requestSong"></ul>
+                  <br />
                   <input type="tel" name="tel" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-focus" id="bid-amount" />
                  
                   <button id="submit-song-request" type="submit" data-theme="b">Submit Request</button>
-  
-                  <br/><br/>
-                  
+                  <br/>
+                  <label for="tel" class="ui-input-text">Current Playlist</label><br />
                   <ul data-role="listview" class="queueSongsList"></ul>
               </div>
           </div>

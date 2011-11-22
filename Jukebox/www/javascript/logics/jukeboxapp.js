@@ -154,6 +154,13 @@ Jukebox.Utilities.prototype.addSong = function (song, songList) {
 };
 
 
+Jukebox.Utilities.prototype.findEvent = function (eventList, eventId) {
+    for(var i = 0; i < eventList.length; i++)
+        if(eventList[i].id == eventId)
+            return eventList[i];
+    return null;
+};
+
 /*Player
  *contains all functions for controlling music player
  */
@@ -299,13 +306,14 @@ Jukebox.DOM.prototype.renderSongListItem = function(song, eventId) {
     var html = '';
 	html += '<li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
     
-    html += '<a href="#request-song" onclick="console.log(\'before\'); $(\'#submit-song-request\').bind(\'click\', function(){ submitSongRequest(\'' + song.persistentID + '\', \'' + eventId + '\'); }); console.log(\'after\');" class="ui-link-inherit">';
+    html += '<a onclick="requestingSong(\'' + song.persistentID + '\', \'' + eventId + '\');" class="ui-link-inherit">';
     
 	html += '<h3 class="ui-li-heading">' + song.title + '</h3>';
 	html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) + ')</p>';
 	html += '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div></li>';
 	return html
 };
+
 
 Jukebox.DOM.prototype.renderQueueSongListItems = function(queueSongs, songs, eventId) {
 	html = '';
@@ -322,7 +330,10 @@ Jukebox.DOM.prototype.renderQueueSongListItems = function(queueSongs, songs, eve
 
 Jukebox.DOM.prototype.renderQueueSongListItem = function(song, bidAmount, eventId) {
     var html = '';
-    html += '<li class="ui-li ui-li-static ui-body-c"><p class="ui-li-aside ui-li-desc"><strong>Bid: $' + bidAmount + '</strong></p>';
+    html += '<li class="ui-li ui-li-static ui-body-c"><p class="ui-li-aside ui-li-desc">';
+    if(bidAmount != null) { 
+       html += '<strong>Bid: $' + bidAmount + '</strong></p>';
+    }
     html += '<h3 class="ui-li-heading">' + song.title + '</h3>';
     //html += '<p class="ui-li-desc"><strong>You\'ve been invited to a meeting at Filament Group in Boston, MA</strong></p>';
     html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) +')</p></li>';
