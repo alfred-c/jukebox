@@ -216,15 +216,18 @@
           </div>
           <div data-role="content">
               <div class="content-primary">	
-                  <label for="tel" class="ui-input-text">Enter your bid in $1 increments:</label>
-                  <br />
+                  
                   <ul data-role="listview" class="requestSong"></ul>
                   <br />
-                  <input type="tel" name="tel" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-focus" id="bid-amount" />
+                  <br />
+                  <strong>Your max bid:</strong>
+                  
+                  <input type="tel" name="bid-amount" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" id="bid-amount" style="width: 90%" />
                  
                   <button id="submit-song-request" type="submit" data-theme="b">Submit Request</button>
                   <br/>
-                  <label for="tel" class="ui-input-text">Current Playlist</label><br />
+                  <!--<label for="tel" class="ui-input-text">Current Playlist</label><br />-->
+                  <strong>Current Playlist:</strong><br/><br/>
                   <ul data-role="listview" class="queueSongsList"></ul>
               </div>
           </div>
