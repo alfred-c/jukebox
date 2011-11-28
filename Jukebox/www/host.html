@@ -138,6 +138,12 @@
                 }    
                 
                 function endEvent() {
+                    var jukeboxServices = new Jukebox.Services();
+                    jukeboxServices.endEvent(event,
+                                             function (data) {
+                                             eventId = data;
+                                             console.log(data);
+                                             });
                     window.plugins.musicLibrary.terminateMusicPlayer(
                                                                      function (data) {
                                                                      console.log(data);

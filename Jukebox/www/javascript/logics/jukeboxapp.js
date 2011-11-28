@@ -136,6 +136,10 @@ Jukebox.Services.prototype.cleanDB = function(callback, errorCallback) {
     this.get('clean/' + eventId, function(data) {callback(data); }, errorCallback);
 };
 
+Jukebox.Services.prototype.endEvent = function(eventId, callback, errorCallback) {
+    this.get('end/' + eventId, function(data) {callback(data, eventID); }, errorCallback);
+}
+
 /*Utilities
  *
  */
