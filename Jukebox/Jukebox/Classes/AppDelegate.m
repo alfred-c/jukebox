@@ -53,6 +53,10 @@
     [self.appMusicPlayer setRepeatMode:MPMusicRepeatModeNone];
 }
 
+- (void) terminateMediaPlayer {
+    [self.appMusicPlayer stop];
+    self.appMusicPlayer = nil;
+}
 
 
 /**

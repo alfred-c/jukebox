@@ -4,10 +4,10 @@ Jukebox.Event = function (eventName, songList, isBid) {
     this.name = eventName;
     this.songs = songList;
     if(isBid == "yes"){
-        this.bidding = true;
+        this.bidding = "bid";
     }
     else {
-        this.bidding = false;
+        this.bidding = "free";
     }
 };
 
@@ -128,6 +128,10 @@ Jukebox.Services.prototype.getFirstSong = function(eventId, callback, errorCallb
     this.get('event/dequeuesong/' + eventId, function(data) {callback(data,eventId); }, errorCallback);
 };
 
+Jukebox.Services.prototype.getBalance = function(eventId, callback, errorCallback) {
+    this.get('event/balance/' + eventId, function(data) {callback(data,eventId); }, errorCallback);
+};
+
 Jukebox.Services.prototype.cleanDB = function(callback, errorCallback) {
     this.get('clean/' + eventId, function(data) {callback(data); }, errorCallback);
 };
@@ -197,6 +201,7 @@ Jukebox.Player.prototype.playFirstSong = function(eventId) {
         function(song, eventId) {
             if(song == null) {
                 console.log("No queue");
+                self.songChangeCallback(null);
                 setTimeout(function() {self.playFirstSong(eventId);},5000);
                 return false;
             }
@@ -209,7 +214,7 @@ Jukebox.Player.prototype.playFirstSong = function(eventId) {
                     song.song_id,
                     function (result){
                         self.currentSongId = song.song_id;
-                        self.songChangeCallback(self.currentSongId);
+                        self.songChangeCallback(self.currentSongId,eventId);
                         console.log(result);
                         self.triggerEndofSong(song.song_id, function(timeLeft) {self.playFirstSong(eventId);}, 0.3);
                     },
@@ -263,19 +268,39 @@ Jukebox.DOM.prototype.renderListMediaItems = function(items) {
 	return html;
 };
 
-Jukebox.DOM.prototype.renderListMediaItem = function(item) {
+Jukebox.DOM.prototype.renderListMediaItem = function(song) {
+    /*
     var html = '<li class="ui-li ui-li-static ui-body-c" id="'+ item.persistentID +'">'
     html += '<p class="ui-li-aside ui-li-desc"><strong>'+this.formatTimeInterval(item.playbackDuration)+'</strong></p>';
     html += '<h3>'+item.title+'</h3>';
     html += '<p>' + item.albumTitle + ' - ' + item.artist + '</p>';
     html += '</li>';
     return html;
+     */
+    var html = '';
+	html += '<li data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li"><div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
+    
+    html += '<a class="ui-link-inherit">';
+    
+	html += '<h3 class="ui-li-heading">' + this.formatLongString(song.title, 23) + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) + ')</h3>';
+	html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + '</p>';
+	html += '</a></div></div></li>';
+	return html
 };
 
 Jukebox.DOM.prototype.formatTimeInterval = function(seconds) {
     return (new Date).clearTime()
                      .addSeconds(seconds)
                      .toString('mm:ss');
+};
+
+Jukebox.DOM.prototype.formatLongString = function (str, shownLength) {
+    if (str.length <= shownLength) {
+        return str;
+    }
+    else {
+        return str.substring(0, shownLength) + '...';
+    }
 };
 
 Jukebox.DOM.prototype.renderEventListItems = function(events) {
@@ -287,6 +312,7 @@ Jukebox.DOM.prototype.renderEventListItems = function(events) {
 };
 
 Jukebox.DOM.prototype.renderEventListItem = function(event) {
+    
     var html = '';
 	html += '<li data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-down-c ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a onclick="setupEventPage(\'' + event.id + '\');" href="#controls" class="ui-link-inherit">';
 	html += '<h3 class="ui-li-heading">' + event.name + '</h3>';
@@ -308,19 +334,19 @@ Jukebox.DOM.prototype.renderSongListItem = function(song, eventId) {
     
     html += '<a onclick="requestingSong(\'' + song.persistentID + '\', \'' + eventId + '\');" class="ui-link-inherit">';
     
-	html += '<h3 class="ui-li-heading">' + song.title + '</h3>';
-	html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) + ')</p>';
+	html += '<h3 class="ui-li-heading">' + this.formatLongString(song.title, 23) + ' (' + this.formatTimeInterval(parseInt(song.playbackDuration)) + ')</h3>';
+	html += '<p class="ui-li-desc">' + song.albumTitle + ' - ' + song.artist + '</p>';
 	html += '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></div></li>';
 	return html
 };
 
 
-Jukebox.DOM.prototype.renderQueueSongListItems = function(queueSongs, songs, eventId) {
+Jukebox.DOM.prototype.renderQueueSongListItems = function(queueSongs, songs, eventId, bidding) {
 	html = '';
 	for (i in queueSongs) {
         for (x in songs) {
             if (queueSongs[i].song_id == songs[x].persistentID) {
-                html += this.renderQueueSongListItem(songs[x], queueSongs[i].bid_amount, eventId);
+                html += this.renderQueueSongListItem(songs[x], queueSongs[i].bid_amount, eventId, bidding);
                 break;
             }
         }
@@ -328,10 +354,10 @@ Jukebox.DOM.prototype.renderQueueSongListItems = function(queueSongs, songs, eve
 	return html;
 };
 
-Jukebox.DOM.prototype.renderQueueSongListItem = function(song, bidAmount, eventId) {
+Jukebox.DOM.prototype.renderQueueSongListItem = function(song, bidAmount, eventId, bidding) {
     var html = '';
     html += '<li class="ui-li ui-li-static ui-body-c"><p class="ui-li-aside ui-li-desc">';
-    if(bidAmount != null) { 
+    if(bidding == "bid") { 
        html += '<strong>Bid: $' + bidAmount + '</strong></p>';
     }
     html += '<h3 class="ui-li-heading">' + song.title + '</h3>';

@@ -113,21 +113,48 @@
                             var jukeboxDOM = new Jukebox.DOM();
                             $('#currentPlayDuration').html(jukeboxDOM.formatTimeInterval(timeLeft));
                         }, 
-                        function (curSongId){
-                                                    
-                                                    var jukeboxUtil = new Jukebox.Utilities();
-                                                    var song = jukeboxUtil.findSong(songList, curSongId);
-                                                    $('#songName').html(song.title);
+                        function (curSongId, eventId){
+                            if(curSongId != null) {
+                                var jukeboxServices = new Jukebox.Services();
+                                jukeboxServices.getBalance(eventId,
+                                    function (balance) {
+                                        $('#totalBalance').html('total: $'+balance);
+                                    }
+                                );
+                                var jukeboxUtil = new Jukebox.Utilities();
+                                var song = jukeboxUtil.findSong(songList, curSongId);
+                                $('#nowPlaying').show();
+                                $('#songName').html(song.title);
+                                $('#artist').html(song.artist);
+                                $('#currentAction').html('Now Playing');
+                            }
+                            else {
+                                $('#nowPlaying').hide();
+                                $('#currentAction').html('Waiting For Request');                   
+                            }
                         });
                     player.startPlayer(eventId);
                     $('#eventName').html(event.name);
-                }                
+                }    
+                
+                function endEvent() {
+                    window.plugins.musicLibrary.terminateMusicPlayer(
+                                                                     function (data) {
+                                                                     console.log(data);
+                                                                     window.location = "index.html";
+                                                                     },
+                                                                     function () {
+                                                                     console.log('error');
+                                                                     });
+                }
+                
                 var songList = [];
                 var eventId = "";  
                 var event;
                 </script>
             </head>
-    <body onload="onBodyLoad()">        
+    <body onload="onBodyLoad()">    
+        
 		<div data-role="page" id="createEventPage" data-theme="b">
 			<div data-role="header" data-position="fixed" data-theme="b">
             <a data-rel="back" data-icon="arrow-l" data-theme="b">Home</a>
@@ -139,8 +166,6 @@
 	
 						<div class="ui-hide-label">
 							<input type="text" name="eventname" id="eventname" value="" placeholder="Enter your event name here"/>
-                            
-						
                         </div>
                     <div data-role="fieldcontain">
                         <label for="flip-b">Allow bidding:</label>
@@ -168,9 +193,11 @@
             </div>
 
 			<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-btn ui-bar-d">Add Songs</li>
-			<p>
+            
 			<div data-role="content">
-                    <ul data-role="listview" id="song-list" data-filter="true"></ul>
+				<div class="content-primary">
+                    <ul data-role="listview" id="song-list" data-filter="true">
+                    </ul>
                 </div>
                 <div id="empty-song-list">
                     <br />
@@ -180,35 +207,74 @@
                     <a href="#" data-role="button" onClick="addSongs();" data-theme="b" data-icon="add" data-inline="true" class="ui-btn ui-btn-inline ui-btn-icon-left ui-btn-corner-all ui-shadow ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all" aria-hidden="true"><span class="ui-btn-text">Add</span><span class="ui-icon ui-icon-add ui-icon-shadow"></span></span></a>
                      to add songs
                 </div>
-                <br />
-                <div>
-                    <fieldset class="ui-grid-a">
-						<div class="ui-block-a">                    
-                            <a href="#" data-role="button" data-theme="c" id="btnClearSong" onClick="songList=[];updateSongList();">Clear</a>
-                        </div>
-						<div class="ui-block-b">
-                            <a href="#" data-role="button" data-theme="b" id="btnPublishEvent" onClick="publishList();">Publish</a>
-
-                        </div>
-					</fieldset>
-                </div>
+            </div>
+        
+            <div data-position="fixed" data-role="footer" class="ui-bar" data-theme="c">
+                 <fieldset class="ui-grid-a">
+                    <div class="ui-block-a">                    
+                        <a href="#" data-role="button" data-theme="c" id="btnClearSong" onClick="songList=[];updateSongList();">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Clear
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </a>
+                    </div>
+                    <div class="ui-block-b">
+                        <a href="#" data-role="button" data-theme="b" id="btnPublishEvent" onClick="publishList();">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Publish
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </a>
+                    </div>
+                </fieldset>
+                 
             </div>
         </div>
         
         <div data-role="page" id="playingSongPage" data-theme="b">
             <script>
-                $('#playingSongPage').live('pageinit',function(event){
-                                          startPlaySongs();
-                                          });
+                $('#playingSongPage').live('pageinit',function(eventData){
+                        startPlaySongs();
+                        $('#nowPlaying').hide();
+                        //console.log(event);
+                        if (event.bidding == "free") {
+                            $('#totalBalance').hide();
+                        }
+                        else {
+                            $('#totalBalance').show();
+                        }
+                    });
                 </script>
             <div data-role="header" data-position="fixed" data-theme="b">
                 <h1>Event</h1>
+                
+                <a href="#endEventPrompt" data-theme="b" class="ui-btn-right" data-icon="delete" data-role="button" data-rel="dialog" data-transition="slideup" data-theme="a">End Event</a>
             </div>
             <div data-role="content" style="text-align:center;">
-                <h2 id="eventName"></h2>
-                <h3 id="songName">No Music</h3>
-                <h1 id="currentPlayDuration">00:00</h1>
+                <fieldset class="ui-grid-a" style="margin:-20px -5px -20px -5px;">
+                    <div class="ui-block-a" style="text-align:left;">
+                        <h3 id="eventName">Name</h3>
+                    </div>
+                    <div class="ui-block-b" style="text-align:right;">
+                        <h4 id="totalBalance">total: $0</h4>
+                    </div>
+                </fieldset>
+                <hr />
+                <h2 id="currentAction"> Waiting For Request</h2>
+                <hr />
+                <div id="nowPlaying">
+                    <strong><h3 id="songName">...</h3></strong>
+                    <h4 id="artist">none</h4>
+                    <h1 id="currentPlayDuration">00:00</h1>
+                </div>
             </div>
+        </div>
+        <div  id="endEventPrompt" data-theme="a">
+            <br />
+            <br />
+            <h3>Do you want to end the current event?</h3>
+            <a href="#" data-role="button" data-theme="a" onClick="endEvent();">End Current Event</a>
+            <a href="#" data-role="button" data-theme="d" data-rel="back">Cancel, continue event</a>
+            
         </div>
     </body>
 </html>

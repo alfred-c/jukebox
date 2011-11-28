@@ -32,5 +32,6 @@
 - (void) dismissMediaPicker;
 
 - (void) setupMediaPlayer;
+- (void) terminateMediaPlayer;
 @end
 

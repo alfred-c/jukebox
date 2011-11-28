@@ -86,21 +86,32 @@
         
 		var jukeboxServices = new Jukebox.Services();
         jukeboxServices.getQueue(eventId, function(songIds) {
-                                 $('.queueSongsList').html(jukeboxDOM.renderQueueSongListItems(songIds, songs, eventId));
+                                 $('.queueSongsList').html(jukeboxDOM.renderQueueSongListItems(songIds, songs, eventId, event.bidding));
                                  });
 	}
         
     function requestingSong(songId, eventId) {
+       // console.log('1');
+        console.log(event);
         if(event.bidding == "bid") {
+         //   console.log('2');
+            // Re-render the event pages so that the queue is updated
+            setupEventPage(eventId);
             var jukeboxDOM = new Jukebox.DOM();
             var jukeboxUtil = new Jukebox.Utilities();
             $('#submit-song-request').bind('click', function(){ submitSongRequest(songId, eventId);});
+           // console.log('2.1');
             var song = jukeboxUtil.findSong(songList, songId);
+            //console.log('2.2');
             $('.requestSong').html(jukeboxDOM.renderQueueSongListItem(song, null, eventId));
+            //console.log('2.3');
             $.mobile.changePage($('#request-song'));
+            //console.log('2.4');
         }
         else if(event.bidding == "free") {
+            //console.log('3');
             submitSongRequest(songId, eventId);
+            //console.log('3.1');
             //$.mobile.changePage($('#controls-queue'));
         }
     }
@@ -163,7 +174,7 @@
 	   <div data-role="page" id="controls" data-theme="b">
 		   <div data-role="header" data-position="inline" data-theme="b">
 				<a href="#events" data-direction="reverse" data-icon="arrow-l" data-theme="b">Events</a>
-				<h1 class="eventTitle">Event Songs</h1>
+				<h1 class="eventTitle">Library</h1>
 			</div>
 		   <div data-role="content">
 				<div class="content-primary">	
@@ -174,8 +185,8 @@
 			<div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#controls" class="ui-btn-active ui-state-persist" data-transition="slideup">Songs</a></li>
-                        <li><a href="#controls-queue" data-transition="slideup">Queue</a></li>
+                        <li><a href="#controls" class="ui-btn-active ui-state-persist" data-transition="none">Songs</a></li>
+                        <li><a href="#controls-queue" data-transition="none">Queue</a></li>
                     </ul>
                 </div><!-- /navbar -->
             </div>
@@ -190,7 +201,7 @@
 
           <div data-role="header" data-position="inline" data-theme="b">
               <a href="#events" data-direction="reverse" data-icon="arrow-l" data-theme="b">Events</a>
-              <h1 class="eventTitle">Event Queue</h1>
+              <h1 class="eventTitle">Playlist</h1>
           </div>
           <div data-role="content">
               <div class="content-primary">	
@@ -202,8 +213,8 @@
           <div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
               <div data-role="navbar">
                   <ul>
-                      <li><a href="#controls" data-transition="slideup">Songs</a></li>
-                      <li><a class="ui-btn-active ui-state-persist" href="#controls-queue" data-transition="slideup">Queue</a></li>
+                      <li><a href="#controls" data-transition="none">Songs</a></li>
+                      <li><a class="ui-btn-active ui-state-persist" href="#controls-queue" data-transition="none">Queue</a></li>
                   </ul>
               </div><!-- /navbar -->
           </div>

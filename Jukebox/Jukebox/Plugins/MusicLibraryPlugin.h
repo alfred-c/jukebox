@@ -26,4 +26,5 @@
 - (void) setupMusicPlayer:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) getCurrentPlaybackTime:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) getCurrentMediaItem:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) terminateMusicPlayer:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 @end
