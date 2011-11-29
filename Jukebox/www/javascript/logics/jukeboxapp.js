@@ -137,7 +137,7 @@ Jukebox.Services.prototype.cleanDB = function(callback, errorCallback) {
 };
 
 Jukebox.Services.prototype.endEvent = function(eventId, callback, errorCallback) {
-    this.get('end/' + eventId, function(data) {callback(data, eventID); }, errorCallback);
+    this.get('event/delete/' + eventId, function(data) {callback(data, eventID); }, errorCallback);
 }
 
 /*Utilities
