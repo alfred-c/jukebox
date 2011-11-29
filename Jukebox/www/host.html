@@ -100,6 +100,7 @@
                     jukeboxServices.addEvent(event,
                         function (data) {
                             eventId = data;
+                            event.id = data;
                             console.log(data);
                             if(eventId != "") {
                                 $.mobile.changePage($('#playingSongPage'));
@@ -139,7 +140,8 @@
                 
                 function endEvent() {
                     var jukeboxServices = new Jukebox.Services();
-                    jukeboxServices.endEvent(event,
+                    console.log(event);
+                    jukeboxServices.endEvent(eventId,
                                              function (data) {
                                              eventId = data;
                                              console.log(data);

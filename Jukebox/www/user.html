@@ -194,8 +194,17 @@
       
       <div data-role="page" id="controls-queue" data-theme="b">
           <script>
+              
               $('#controls-queue').live('pageinit',function(){
+                                                $('#submit-song-request').unbind('click');
+                                        $('#refreshQueue').bind('click', function(){ setupEventPage(event.id);});
+                                        
+                                        
+                                        });
+              $('#controls-queue').live('pageshow',function(){
+                                        console.log('refresh');
                                          setupEventPage(event.id);
+                                        
                                          });
               </script>
 
@@ -214,7 +223,7 @@
               <div data-role="navbar">
                   <ul>
                       <li><a href="#controls" data-transition="none">Songs</a></li>
-                      <li><a class="ui-btn-active ui-state-persist" href="#controls-queue" data-transition="none">Queue</a></li>
+                      <li><a id="refreshQueue" class="ui-btn-active ui-state-persist" href="#controls-queue" data-transition="none">Queue</a></li>
                   </ul>
               </div><!-- /navbar -->
           </div>

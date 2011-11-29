@@ -54,8 +54,10 @@
 }
 
 - (void) terminateMediaPlayer {
-    [self.appMusicPlayer stop];
-    self.appMusicPlayer = nil;
+    if(self.appMusicPlayer) {
+        [self.appMusicPlayer stop];
+        self.appMusicPlayer = nil;
+    }
 }
 
 
