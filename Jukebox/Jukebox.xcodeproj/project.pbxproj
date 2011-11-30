@@ -40,7 +40,7 @@
 /* Begin PBXFileReference section */
 		C88578DF1463C5B100682817 /* MusicLibraryPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicLibraryPlugin.h; path = Plugins/MusicLibraryPlugin.h; sourceTree = "<group>"; };
 		C88578E01463C5B100682817 /* MusicLibraryPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicLibraryPlugin.m; path = Plugins/MusicLibraryPlugin.m; sourceTree = "<group>"; };
-		C8DE8145145DD49D00FAF30F /* BidTunez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BidTunez.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8DE8145145DD49D00FAF30F /* bidTunez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bidTunez.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8DE8149145DD49D00FAF30F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C8DE814B145DD49D00FAF30F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C8DE814D145DD49D00FAF30F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -119,7 +119,7 @@
 		C8DE8146145DD49D00FAF30F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C8DE8145145DD49D00FAF30F /* BidTunez.app */,
+				C8DE8145145DD49D00FAF30F /* bidTunez.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -254,7 +254,7 @@
 			);
 			name = Jukebox;
 			productName = Jukebox;
-			productReference = C8DE8145145DD49D00FAF30F /* BidTunez.app */;
+			productReference = C8DE8145145DD49D00FAF30F /* bidTunez.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -440,7 +440,7 @@
 					"-weak_library",
 					/usr/lib/libSystem.B.dylib,
 				);
-				PRODUCT_NAME = BidTunez;
+				PRODUCT_NAME = bidTunez;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -471,7 +471,7 @@
 					"-weak_library",
 					/usr/lib/libSystem.B.dylib,
 				);
-				PRODUCT_NAME = BidTunez;
+				PRODUCT_NAME = bidTunez;
 				PROVISIONING_PROFILE = "4FFAF4C0-FEEB-4D66-BB0E-9F3A2D1C7DC1";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4FFAF4C0-FEEB-4D66-BB0E-9F3A2D1C7DC1";
 				TARGETED_DEVICE_FAMILY = "1,2";
