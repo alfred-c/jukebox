@@ -145,15 +145,16 @@
                                              function (data) {
                                              eventId = data;
                                              console.log(data);
+                                             window.plugins.musicLibrary.terminateMusicPlayer(
+                                                                                              function (data) {
+                                                                                              console.log(data);
+                                                                                              window.location = "index.html";
+                                                                                              },
+                                                                                              function () {
+                                                                                              console.log('error');
+                                                                                              });
                                              });
-                    window.plugins.musicLibrary.terminateMusicPlayer(
-                                                                     function (data) {
-                                                                     console.log(data);
-                                                                     window.location = "index.html";
-                                                                     },
-                                                                     function () {
-                                                                     console.log('error');
-                                                                     });
+                    
                 }
                 
                 var songList = [];
